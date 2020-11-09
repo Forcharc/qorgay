@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Status bar stuff. -->
+        <item name="android:statusBarColor" tools:targetApi="m">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
+
+<!--    <style name="AppTheme.Launcher" parent="Fullscreen">-->
+<!--        <item name="android:windowBackground">@drawable/launcher_screen_with_logo</item>-->
+<!--        <item name="android:windowFullscreen">true</item>-->
+<!--        <item name="android:windowContentOverlay">@null</item>-->
+<!--    </style>-->
+
+    <style name="Fullscreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="BottomNavigationActiveText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/color_nav_active</item>
+        <item name="fontFamily">@font/sfui_display_regular</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationInactiveText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/color_nav_active</item>
+        <item name="fontFamily">@font/sfui_display_regular</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+</resources>

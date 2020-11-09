@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Qorgau</string>
+
+    <!--Navigation-->
+    <string name="title_nav_home">Главная</string>
+    <string name="title_nav_list">Список</string>
+    <string name="title_nav_create">Создать</string>
+    <string name="title_nav_notifications">Уведомления</string>
+    <string name="title_nav_profile">Профиль</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
