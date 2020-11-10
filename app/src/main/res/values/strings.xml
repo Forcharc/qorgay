@@ -9,5 +9,10 @@
     <string name="title_nav_profile">Профиль</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="qorgay">Коргау</string>
+    <string name="quiz">Опросы</string>
+    <string name="work_watching">Наблюдения работ</string>
+    <string name="driving_watching">Наблюдения вождения</string>
+    <string name="news">Новости</string>
 
 </resources>

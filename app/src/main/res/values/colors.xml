@@ -14,8 +14,11 @@
 
     <color name="color_blue">#007AFF</color>
     <color name="color_hard_blue">#0D1875</color>
+    <color name="color_strange_gray">#8290A1</color>
+
+    <color name="color_line">#3478F7</color>
 
     <color name="color_nav_active">#0084F8</color>
-    <color name="color_nav_inactive">#8290A1</color>
+    <color name="color_nav_inactive">@color/color_strange_gray</color>
 
 </resources>

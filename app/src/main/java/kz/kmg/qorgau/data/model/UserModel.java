@@ -11,4 +11,32 @@ public class UserModel implements Serializable {
     @Expose
     private int id;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    private String name;
+    private String surname;
+    private String avatarUrl;
+
+    public UserModel(int id, String name, String surname, String avatarUrl) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.avatarUrl = avatarUrl;
+    }
+
+
 }
