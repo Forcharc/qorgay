@@ -8,15 +8,20 @@
     <color name="toolbar_tittle_color">#373737</color>
 
     <color name="black">#000000</color>
-    <color name="grey">#C4C4C4</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00000000</color>
 
     <color name="color_blue">#007AFF</color>
+    <color name="color_blue2">#3478F7</color>
     <color name="color_hard_blue">#0D1875</color>
+
+    <color name="light_gray">#E7F0FF</color>
+    <color name="gray">#8A8A8F</color>
+    <color name="gray2">#C8C7CC</color>
+    <color name="gray3">#C4C4C4</color>
     <color name="color_strange_gray">#8290A1</color>
 
-    <color name="color_line">#3478F7</color>
+    <color name="color_line">@color/color_blue2</color>
 
     <color name="color_nav_active">#0084F8</color>
     <color name="color_nav_inactive">@color/color_strange_gray</color>
