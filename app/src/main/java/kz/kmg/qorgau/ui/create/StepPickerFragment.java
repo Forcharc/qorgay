@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.utils.rv.CenteredLayoutManager;
 
 
 public class StepPickerFragment extends Fragment implements OnStepClickListener {

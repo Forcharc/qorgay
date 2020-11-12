@@ -15,5 +15,8 @@
     <string name="driving_watching">Наблюдения вождения</string>
     <string name="news">Новости</string>
     <string name="next">Далее</string>
+    <string name="questionnaires">Опросы</string>
+    <string name="observation_type">Тип наблюдения:</string>
+    <string name="retry">Повторить</string>
 
 </resources>

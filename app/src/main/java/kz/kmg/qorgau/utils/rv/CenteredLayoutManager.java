@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.ui.create;
+package kz.kmg.qorgau.utils.rv;
 
 import android.content.Context;
 import android.util.AttributeSet;

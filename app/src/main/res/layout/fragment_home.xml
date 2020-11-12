@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@drawable/ic_home_create" />
 
             <TextView
@@ -67,14 +67,15 @@
             android:id="@+id/layout_quiz"
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@drawable/ic_home_quiz" />
 
             <TextView
@@ -91,14 +92,15 @@
             android:id="@+id/layout_work_watching"
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@drawable/ic_home_create" />
 
             <TextView
@@ -116,14 +118,15 @@
             android:id="@+id/layout_driving_watching"
             android:layout_width="60dp"
             android:layout_height="100dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 app:srcCompat="@drawable/ic_home_wheel" />
 
             <TextView

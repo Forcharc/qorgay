@@ -4,12 +4,14 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.ui.base.activity.BaseActivity;
+import kz.kmg.qorgau.ui.create.CreateQorgayViewModel;
 
 public class MainActivity extends BaseActivity {
 

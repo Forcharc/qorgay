@@ -13,6 +13,7 @@ import kz.kmg.qorgau.data.local.LocalStorage;
 import kz.kmg.qorgau.data.network.RetrofitModule;
 import kz.kmg.qorgau.di.util.ViewModelFactoryModule;
 import kz.kmg.qorgau.domain.services.glide.GlideModule;
+import retrofit2.Retrofit;
 
 
 @Singleton
@@ -30,6 +31,7 @@ public interface AppComponent extends AndroidInjector<QorgauApp> {
 
     LocalStorage localStorage();
 
+    Retrofit retrofit();
 
     @Component.Builder
     interface Builder{

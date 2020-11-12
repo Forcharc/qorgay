@@ -27,10 +27,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "REST_URL", '"http://51.15.112.105:9096/api/"'
+            buildConfigField "String", "REST_URL", '"https://kisud.kmg.kz/"'
         }
         release {
-            buildConfigField "String", "REST_URL", '"http://51.15.112.105:9096/api/"'
+            buildConfigField "String", "REST_URL", '"https://kisud.kmg.kz/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
