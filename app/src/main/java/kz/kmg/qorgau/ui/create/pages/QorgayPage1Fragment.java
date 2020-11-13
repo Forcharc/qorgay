@@ -11,9 +11,8 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.home.questionnaire.ObservationType;
+import kz.kmg.qorgau.data.model.create.ObservationTypeModel;
 
 public class QorgayPage1Fragment extends BaseQorgayPageFragment {
     @BindView(R.id.radio_group)
@@ -29,7 +28,6 @@ public class QorgayPage1Fragment extends BaseQorgayPageFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
 
         onOptionItemClickListener = v -> {
             viewModel.setPage1ObservationTypeId(v.getId());
@@ -52,7 +50,7 @@ public class QorgayPage1Fragment extends BaseQorgayPageFragment {
                     break;
                 case SUCCESS:
                     hideStatusViews();
-                    loadOptions(listResource.data);
+                    loadOptions(listResource.data, viewModel.getPage1ObservationTypeId());
                     break;
                 case LOADING:
                     showProgress();
@@ -61,19 +59,24 @@ public class QorgayPage1Fragment extends BaseQorgayPageFragment {
         });
     }
 
-    private void loadOptions(List<ObservationType> options) {
+    private void loadOptions(List<ObservationTypeModel> options, Integer checkedId) {
         radioGroup.removeAllViews();
-        for (ObservationType item :
+        for (ObservationTypeModel item :
                 options) {
-            addOption(item);
+            addOption(item, checkedId);
         }
     }
 
-    private void addOption(ObservationType option) {
+    private void addOption(ObservationTypeModel option, Integer checkedId) {
         RadioButton radioButton = new RadioButton(requireContext());
         radioButton.setText(option.getName());
         radioButton.setId(option.getId());
         radioButton.setOnClickListener(onOptionItemClickListener);
+
+        if (checkedId != null && option.getId() == checkedId) {
+            radioButton.setChecked(true);
+        }
+
         radioGroup.addView(radioButton);
     }
 

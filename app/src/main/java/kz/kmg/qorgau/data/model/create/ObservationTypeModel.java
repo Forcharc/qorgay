@@ -1,8 +1,8 @@
-package kz.kmg.qorgau.data.model.home.questionnaire;
+package kz.kmg.qorgau.data.model.create;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObservationType{
+public class ObservationTypeModel {
 
 	@SerializedName("LastChangeDate")
 	private Object lastChangeDate;

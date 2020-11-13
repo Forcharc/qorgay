@@ -20,6 +20,8 @@
         android:id="@+id/tv_quiz_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginStart="14dp"
         android:layout_marginTop="14dp"
         android:fontFamily="@font/sfui_display_regular"

@@ -6,6 +6,7 @@
 
     <color name="text_color">#151522</color>
     <color name="toolbar_tittle_color">#373737</color>
+    <color name="edittext_border_color">#C8C7CC</color>
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>

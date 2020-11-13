@@ -27,7 +27,7 @@ public class ErrorHelper {
     }
 
 
-    public static <T> Resource<T> getCityApiError(Response response) {
+    public static <T> Resource<T> getQorgayApiError(Response response) {
         Gson gson = new Gson();
         ApiError apiError = new ApiError();
         try {

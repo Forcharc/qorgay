@@ -5,169 +5,241 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QorgayModel implements Serializable {
-        int dictKorgauObservationTypeId;
-        String fullName;
-        String incidentDateTime;
-        int organizationId;
-        int organizationDepartmentId;
-        int supervisedOrganizationId;
-        ArrayList<Integer> dictKorgauObservationCategories;
-        String suggestion;
-        ArrayList<File> files;
-        String possibleConsequence;
-        String measure;
-        String actionToEncourage;
-        boolean isDiscussed;
-        boolean isInformed;
-        String informTo;
-        boolean isEliminated;
+    Integer dictKorgauObservationTypeId;
+    String fullName;
+    String phone;
+    String incidentDateTime;
+    Integer organizationId;
+    Boolean isContractor;
+    String contractor;
+    Integer organizationDepartmentId;
+    Integer supervisedOrganizationId;
+    String supervisedObject;
+    Integer[] dictKorgauObservationCategories;
+    String suggestion;
+    File[] files;
+    String possibleConsequence;
+    String measure;
+    String actionToEncourage;
+    Boolean isDiscussed;
+    Boolean isInformed;
+    String informTo;
+    Boolean isEliminated;
 
 
+    public QorgayModel(
+            Integer dictKorgauObservationTypeId,
+            String fullName,
+            String phone,
+            String incidentDateTime,
+            Integer organizationId,
+            Boolean isContractor,
+            String contractor,
+            Integer organizationDepartmentId,
+            Integer supervisedOrganizationId,
+            String supervisedObject,
+            Integer[] dictKorgauObservationCategories,
+            String suggestion, 
+            File[] files,
+            String possibleConsequence, 
+            String measure, 
+            String actionToEncourage, 
+            Boolean isDiscussed, 
+            Boolean isInformed, 
+            String informTo, 
+            Boolean isEliminated
+    ) {
+        this.dictKorgauObservationTypeId = dictKorgauObservationTypeId;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.incidentDateTime = incidentDateTime;
+        this.organizationId = organizationId;
+        this.isContractor = isContractor;
+        this.contractor = contractor;
+        this.organizationDepartmentId = organizationDepartmentId;
+        this.supervisedOrganizationId = supervisedOrganizationId;
+        this.supervisedObject = supervisedObject;
+        this.dictKorgauObservationCategories = dictKorgauObservationCategories;
+        this.suggestion = suggestion;
+        this.files = files;
+        this.possibleConsequence = possibleConsequence;
+        this.measure = measure;
+        this.actionToEncourage = actionToEncourage;
+        this.isDiscussed = isDiscussed;
+        this.isInformed = isInformed;
+        this.informTo = informTo;
+        this.isEliminated = isEliminated;
+    }
 
-        public QorgayModel(int dictKorgauObservationTypeId, String fullName, String incidentDateTime, int organizationId, int organizationDepartmentId, int supervisedOrganizationId, ArrayList<Integer> dictKorgauObservationCategories, String suggestion, ArrayList<File> files, String possibleConsequence, String measure, String actionToEncourage, boolean isDiscussed, boolean isInformed, String informTo, boolean isEliminated) {
-                this.dictKorgauObservationTypeId = dictKorgauObservationTypeId;
-                this.fullName = fullName;
-                this.incidentDateTime = incidentDateTime;
-                this.organizationId = organizationId;
-                this.organizationDepartmentId = organizationDepartmentId;
-                this.supervisedOrganizationId = supervisedOrganizationId;
-                this.dictKorgauObservationCategories = dictKorgauObservationCategories;
-                this.suggestion = suggestion;
-                this.files = files;
-                this.possibleConsequence = possibleConsequence;
-                this.measure = measure;
-                this.actionToEncourage = actionToEncourage;
-                this.isDiscussed = isDiscussed;
-                this.isInformed = isInformed;
-                this.informTo = informTo;
-                this.isEliminated = isEliminated;
-        }
+    public Integer getDictKorgauObservationTypeId() {
+        return dictKorgauObservationTypeId;
+    }
 
-        public int getDictKorgauObservationTypeId() {
-                return dictKorgauObservationTypeId;
-        }
+    public void setDictKorgauObservationTypeId(Integer dictKorgauObservationTypeId) {
+        this.dictKorgauObservationTypeId = dictKorgauObservationTypeId;
+    }
 
-        public void setDictKorgauObservationTypeId(int dictKorgauObservationTypeId) {
-                this.dictKorgauObservationTypeId = dictKorgauObservationTypeId;
-        }
+    public String getFullName() {
+        return fullName;
+    }
 
-        public String getFullName() {
-                return fullName;
-        }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-        public void setFullName(String fullName) {
-                this.fullName = fullName;
-        }
+    public String getPhone() {
+        return phone;
+    }
 
-        public String getIncidentDateTime() {
-                return incidentDateTime;
-        }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-        public void setIncidentDateTime(String incidentDateTime) {
-                this.incidentDateTime = incidentDateTime;
-        }
+    public String getIncidentDateTime() {
+        return incidentDateTime;
+    }
 
-        public int getOrganizationId() {
-                return organizationId;
-        }
+    public void setIncidentDateTime(String incidentDateTime) {
+        this.incidentDateTime = incidentDateTime;
+    }
 
-        public void setOrganizationId(int organizationId) {
-                this.organizationId = organizationId;
-        }
+    public Integer getOrganizationId() {
+        return organizationId;
+    }
 
-        public int getOrganizationDepartmentId() {
-                return organizationDepartmentId;
-        }
+    public void setOrganizationId(Integer organizationId) {
+        this.organizationId = organizationId;
+    }
 
-        public void setOrganizationDepartmentId(int organizationDepartmentId) {
-                this.organizationDepartmentId = organizationDepartmentId;
-        }
+    public Integer getOrganizationDepartmentId() {
+        return organizationDepartmentId;
+    }
 
-        public int getSupervisedOrganizationId() {
-                return supervisedOrganizationId;
-        }
+    public void setOrganizationDepartmentId(Integer organizationDepartmentId) {
+        this.organizationDepartmentId = organizationDepartmentId;
+    }
 
-        public void setSupervisedOrganizationId(int supervisedOrganizationId) {
-                this.supervisedOrganizationId = supervisedOrganizationId;
-        }
+    public Integer getSupervisedOrganizationId() {
+        return supervisedOrganizationId;
+    }
 
-        public ArrayList<Integer> getDictKorgauObservationCategories() {
-                return dictKorgauObservationCategories;
-        }
+    public void setSupervisedOrganizationId(Integer supervisedOrganizationId) {
+        this.supervisedOrganizationId = supervisedOrganizationId;
+    }
 
-        public void setDictKorgauObservationCategories(ArrayList<Integer> dictKorgauObservationCategories) {
-                this.dictKorgauObservationCategories = dictKorgauObservationCategories;
-        }
+    public Integer[] getDictKorgauObservationCategories() {
+        return dictKorgauObservationCategories;
+    }
 
-        public String getSuggestion() {
-                return suggestion;
-        }
+    public void setDictKorgauObservationCategories(ArrayList<Integer> dictKorgauObservationCategories) {
+        this.dictKorgauObservationCategories = dictKorgauObservationCategories.toArray(new Integer[0]);
+    }
 
-        public void setSuggestion(String suggestion) {
-                this.suggestion = suggestion;
-        }
+    public String getSuggestion() {
+        return suggestion;
+    }
 
-        public ArrayList<File> getFiles() {
-                return files;
-        }
+    public void setSuggestion(String suggestion) {
+        this.suggestion = suggestion;
+    }
 
-        public void setFiles(ArrayList<File> files) {
-                this.files = files;
-        }
+    public File[] getFiles() {
+        return files;
+    }
 
-        public String getPossibleConsequence() {
-                return possibleConsequence;
-        }
+    public void setFiles(File[] files) {
+        this.files = files;
+    }
 
-        public void setPossibleConsequence(String possibleConsequence) {
-                this.possibleConsequence = possibleConsequence;
-        }
+    public String getPossibleConsequence() {
+        return possibleConsequence;
+    }
 
-        public String getMeasure() {
-                return measure;
-        }
+    public void setPossibleConsequence(String possibleConsequence) {
+        this.possibleConsequence = possibleConsequence;
+    }
 
-        public void setMeasure(String measure) {
-                this.measure = measure;
-        }
+    public String getMeasure() {
+        return measure;
+    }
 
-        public String getActionToEncourage() {
-                return actionToEncourage;
-        }
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
 
-        public void setActionToEncourage(String actionToEncourage) {
-                this.actionToEncourage = actionToEncourage;
-        }
+    public String getActionToEncourage() {
+        return actionToEncourage;
+    }
 
-        public boolean isDiscussed() {
-                return isDiscussed;
-        }
+    public void setActionToEncourage(String actionToEncourage) {
+        this.actionToEncourage = actionToEncourage;
+    }
 
-        public void setDiscussed(boolean discussed) {
-                isDiscussed = discussed;
-        }
+    public Boolean isDiscussed() {
+        return isDiscussed;
+    }
 
-        public boolean isInformed() {
-                return isInformed;
-        }
+    public void setDiscussed(Boolean discussed) {
+        isDiscussed = discussed;
+    }
 
-        public void setInformed(boolean informed) {
-                isInformed = informed;
-        }
+    public Boolean isInformed() {
+        return isInformed;
+    }
 
-        public String getInformTo() {
-                return informTo;
-        }
+    public void setInformed(Boolean informed) {
+        isInformed = informed;
+    }
 
-        public void setInformTo(String informTo) {
-                this.informTo = informTo;
-        }
+    public String getInformTo() {
+        return informTo;
+    }
 
-        public boolean isEliminated() {
-                return isEliminated;
-        }
+    public void setInformTo(String informTo) {
+        this.informTo = informTo;
+    }
 
-        public void setEliminated(boolean eliminated) {
-                isEliminated = eliminated;
-        }
+    public Boolean isEliminated() {
+        return isEliminated;
+    }
+
+    public Boolean getContractor() {
+        return isContractor;
+    }
+
+    public void setContractor(String contractor) {
+        this.contractor = contractor;
+    }
+
+    public String getSupervisedObject() {
+        return supervisedObject;
+    }
+
+    public void setSupervisedObject(String supervisedObject) {
+        this.supervisedObject = supervisedObject;
+    }
+
+    public void setDictKorgauObservationCategories(Integer[] dictKorgauObservationCategories) {
+        this.dictKorgauObservationCategories = dictKorgauObservationCategories;
+    }
+
+    public Boolean getDiscussed() {
+        return isDiscussed;
+    }
+
+    public Boolean getInformed() {
+        return isInformed;
+    }
+
+    public Boolean getEliminated() {
+        return isEliminated;
+    }
+
+    public void setContractor(Boolean contractor) {
+        isContractor = contractor;
+    }
+
+    public void setEliminated(Boolean eliminated) {
+        isEliminated = eliminated;
+    }
 }

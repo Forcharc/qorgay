@@ -21,12 +21,12 @@ import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.utils.rv.CenteredLayoutManager;
 
 
-public class StepPickerFragment extends Fragment implements OnStepClickListener {
+public class PageNumberPickerFragment extends Fragment implements OnStepClickListener {
     private static final String TAG = "StepPickerFragment";
     static final String ARGUMENT_STEP_COUNT = "ARGUMENT_STEP_COUNT";
 
 
-    private OnStepClickListener onStepClickListener;
+    private OnStepClickListener onPageNumberClickListener;
 
     private int stepsCount = 0;
 
@@ -92,14 +92,14 @@ public class StepPickerFragment extends Fragment implements OnStepClickListener 
     }
 
     @Override
-    public void onStepChosen(int stepNumber) {
+    public void onPageChosen(int stepNumber) {
         try {
             stepsRecyclerView.getLayoutManager().smoothScrollToPosition(stepsRecyclerView, null, stepNumber);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        if (onStepClickListener != null) {
-            onStepClickListener.onStepChosen(stepNumber);
+        if (onPageNumberClickListener != null) {
+            onPageNumberClickListener.onPageChosen(stepNumber);
         }
     }
 
@@ -115,7 +115,7 @@ public class StepPickerFragment extends Fragment implements OnStepClickListener 
                 this.currentStep = currentStep;
                 notifyItemChanged(lastStep);
                 notifyItemChanged(currentStep);
-                onStepChosenListener.onStepChosen(currentStep);
+                onStepChosenListener.onPageChosen(currentStep);
                 return true;
             } else {
                 return false;
@@ -185,7 +185,7 @@ public class StepPickerFragment extends Fragment implements OnStepClickListener 
 
     }
 
-    public void setOnStepClickListener(OnStepClickListener onStepClickListener) {
-        this.onStepClickListener = onStepClickListener;
+    public void setOnPageNumberClickListener(OnStepClickListener onPageNumberClickListener) {
+        this.onPageNumberClickListener = onPageNumberClickListener;
     }
 }

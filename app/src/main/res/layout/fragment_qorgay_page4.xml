@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/layout_create_page_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_choose_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="7dp"
+                android:fontFamily="@font/sfui_display_regular"
+                android:gravity="center_vertical"
+                android:minWidth="100dp"
+                android:hint="@string/choose_date"
+                android:includeFontPadding="false"
+                android:minHeight="40dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_calendar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_choose_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:drawablePadding="7dp"
+                android:fontFamily="@font/sfui_display_regular"
+                android:hint="@string/choose_time"
+                android:includeFontPadding="false"
+                android:minHeight="40dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_clock"
+                app:layout_constraintStart_toStartOf="@id/tv_choose_date"
+                app:layout_constraintTop_toBottomOf="@id/tv_choose_date" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

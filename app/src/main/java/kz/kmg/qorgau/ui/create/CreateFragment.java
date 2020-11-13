@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -14,9 +15,26 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
+import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage11Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage12Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage13Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage14Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage15Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage16Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage17Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage1Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage2Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage3Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage4Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage5Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage6Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage7Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage8Fragment;
+import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
 
 public class CreateFragment extends BaseFragment implements OnStepClickListener {
 
@@ -30,7 +48,9 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
     @BindView(R.id.b_next)
     Button nextButton;
 
-    private PollAdapter pollAdapter;
+    PageNumberPickerFragment pageNumberPickerFragment = new PageNumberPickerFragment();
+
+    private CreateQorgayPagesAdapter createQorgayPagesAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,40 +66,74 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
 
-        StepPickerFragment stepPickerFragment = new StepPickerFragment();
+
+
         Bundle stepPickerArguments = new Bundle();
-        stepPickerArguments.putInt(StepPickerFragment.ARGUMENT_STEP_COUNT, PAGES_COUNT);
-        stepPickerFragment.setArguments(stepPickerArguments);
-        stepPickerFragment.setOnStepClickListener(this);
-        getChildFragmentManager().beginTransaction().replace(R.id.fl_step_picker, stepPickerFragment).commit();
+        stepPickerArguments.putInt(PageNumberPickerFragment.ARGUMENT_STEP_COUNT, PAGES_COUNT);
+        pageNumberPickerFragment.setArguments(stepPickerArguments);
+        pageNumberPickerFragment.setOnPageNumberClickListener(this);
+        getChildFragmentManager().beginTransaction().replace(R.id.fl_step_picker, pageNumberPickerFragment).commit();
 
-        pollAdapter = new PollAdapter(this);
-        pager.setAdapter(pollAdapter);
+        createQorgayPagesAdapter = new CreateQorgayPagesAdapter(this);
+        pager.setAdapter(createQorgayPagesAdapter);
 
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                stepPickerFragment.stepsAdapter.setCurrentStep(position);
+                checkIfFinished(position);
+                pageNumberPickerFragment.stepsAdapter.setCurrentStep(position);
             }
         });
 
-        nextButton.setOnClickListener(v -> {
-            if (stepPickerFragment.nextStepButton != null) {
-                stepPickerFragment.nextStepButton.performClick();
-            }
-        });
     }
 
     @Override
-    public void onStepChosen(int stepNumber) {
+    public void onPageChosen(int stepNumber) {
+        checkIfFinished(stepNumber);
         pager.setCurrentItem(stepNumber, true);
     }
 
-    class PollAdapter extends FragmentStateAdapter {
+    private void checkIfFinished(int stepNumber) {
+        if (stepNumber == (PAGES_COUNT - 1)) {
+            nextButton.setText(R.string.done);
+            nextButton.setOnClickListener(v -> {
+                viewModel.createQorgay().observe(getViewLifecycleOwner(), createQorgayModelResource -> {
+                    switch (createQorgayModelResource.status) {
+                        case ERROR:
+                            nextButton.setEnabled(true);
+                            onToast(createQorgayModelResource.apiError.getMessage());
+                            break;
+                        case SUCCESS:
+                            nextButton.setEnabled(true);
+                            Boolean isSuccess = createQorgayModelResource.data.getIsSuccess();
+                            if (isSuccess) {
+                                onToast("Success");
+                            } else {
+                                onToast("No Success");
+                            }
+                            break;
+                        case LOADING:
+                            nextButton.setEnabled(false);
+                            break;
+                    }
+                });
+            });
+        } else {
+            nextButton.setText(R.string.next);
+            nextButton.setOnClickListener(v -> {
+                if (pageNumberPickerFragment.nextStepButton != null) {
+                    pageNumberPickerFragment.nextStepButton.performClick();
+                }
+            });
+        }
+    }
 
-        public PollAdapter(@NonNull Fragment fragment) {
+    class CreateQorgayPagesAdapter extends FragmentStateAdapter {
+
+        public CreateQorgayPagesAdapter(@NonNull Fragment fragment) {
             super(fragment);
         }
 
@@ -92,6 +146,51 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
                 }
                 case 1: {
                     return new QorgayPage2Fragment();
+                }
+                case 2: {
+                    return new QorgayPage3Fragment();
+                }
+                case 3: {
+                    return new QorgayPage4Fragment();
+                }
+                case 4: {
+                    return new QorgayPage5Fragment();
+                }
+                case 5: {
+                    return new QorgayPage6Fragment();
+                }
+                case 6: {
+                    return new QorgayPage7Fragment();
+                }
+                case 7: {
+                    return new QorgayPage8Fragment();
+                }
+                case 8: {
+                    return new QorgayPage9Fragment();
+                }
+                case 9: {
+                    return new QorgayPage10Fragment();
+                }
+                case 10: {
+                    return new QorgayPage11Fragment();
+                }
+                case 11: {
+                    return new QorgayPage12Fragment();
+                }
+                case 12: {
+                    return new QorgayPage13Fragment();
+                }
+                case 13: {
+                    return new QorgayPage14Fragment();
+                }
+                case 14: {
+                    return new QorgayPage15Fragment();
+                }
+                case 15: {
+                    return new QorgayPage16Fragment();
+                }
+                case 16: {
+                    return new QorgayPage17Fragment();
                 }
             }
             return new QorgayPage1Fragment();
