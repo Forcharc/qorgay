@@ -57,6 +57,7 @@ public class QorgayPage6Fragment extends BaseQorgayPageFragment {
     }
 
     private void initDepartments() {
+        viewModel.getDepartments().removeObservers(getViewLifecycleOwner());
         viewModel.getDepartments().observe(getViewLifecycleOwner(), listResource -> {
             switch (listResource.status) {
                 case ERROR:

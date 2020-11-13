@@ -41,6 +41,7 @@ public class QorgayPage1Fragment extends BaseQorgayPageFragment {
     }
 
     private void initObservationTypes() {
+        viewModel.getObservationTypes().removeObservers(getViewLifecycleOwner());
         viewModel.getObservationTypes().observe(getViewLifecycleOwner(), listResource -> {
             radioGroup.removeAllViews();
             switch (listResource.status) {

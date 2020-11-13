@@ -50,6 +50,7 @@ public class QorgayPage8Fragment extends BaseQorgayPageFragment {
 
 
     private void initObservationTypes() {
+        viewModel.getObservationCategories().removeObservers(getViewLifecycleOwner());
         viewModel.getObservationCategories().observe(getViewLifecycleOwner(), listResource -> {
             categoriesLayout.removeAllViews();
             switch (listResource.status) {

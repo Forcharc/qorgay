@@ -57,6 +57,7 @@ public class QorgayPage7Fragment extends BaseQorgayPageFragment {
     }
 
     private void initSupervisedOrganizations() {
+        viewModel.getOrganizations().removeObservers(getViewLifecycleOwner());
         viewModel.getOrganizations().observe(getViewLifecycleOwner(), listResource -> {
             switch (listResource.status) {
                 case ERROR:
