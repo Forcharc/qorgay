@@ -49,4 +49,7 @@
     <string name="choose_files">Выбрать файлы</string>
     <string name="available_formats">Доступны форматы: jpg, gif, png, txt, pdf, xls, doc</string>
     <string name="done">Готово</string>
+    <string name="card_registered">Ваша карта зарегистрирована</string>
+    <string name="no_data">Не введены данные</string>
+    <string name="fill_empty_fields">Заполните все поля</string>
 </resources>

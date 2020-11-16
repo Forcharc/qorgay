@@ -22,6 +22,7 @@
                 android:id="@+id/tv_organization"
                 style="@style/AppTheme.EditText"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"

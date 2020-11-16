@@ -1,6 +1,7 @@
 package kz.kmg.qorgau.ui.create.pages;
 
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -27,17 +28,23 @@ public class QorgayPage3Fragment extends BaseQorgayPageFragment {
         phoneNumberEditText.setText(viewModel.getPage3PhoneNumber());
 
         phoneNumberEditText.addTextChangedListener(
-               new TextWatcher() {
+                new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         viewModel.setPage3PhoneNumber(s.toString());
                     }
+
                     @Override
-                    public void afterTextChanged(Editable s) { }
+                    public void afterTextChanged(Editable s) {
+                    }
                 }
         );
+
+        phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
 
     @Override

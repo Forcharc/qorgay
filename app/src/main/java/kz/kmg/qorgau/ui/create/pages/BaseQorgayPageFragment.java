@@ -21,17 +21,21 @@ import kz.kmg.qorgau.ui.main.MainActivity;
 public abstract class BaseQorgayPageFragment extends BaseActivityFragment<MainActivity> {
     protected CreateQorgayViewModel viewModel;
 
-    int pageNumber;
-    int pageTitleStringId;
-
-
-
 
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
     @BindView(R.id.b_retry)
     Button retryButton;
+
+    @BindView(R.id.tv_step_number)
+    TextView pageNumberTextView;
+
+    @BindView(R.id.tv_quiz_title)
+    TextView pageTitleTextView;
+
+    int pageNumber;
+    int pageTitleStringId;
 
     public BaseQorgayPageFragment(int pageNumber, int pageTitleStringId) {
         this.pageNumber = pageNumber;
@@ -45,8 +49,6 @@ public abstract class BaseQorgayPageFragment extends BaseActivityFragment<MainAc
         viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
         viewModel.setQorgayApi(((QorgauApp) getActivity().getApplication()).qorgayApi);
 
-        TextView pageNumberTextView = view.findViewById(R.id.tv_step_number);
-        TextView pageTitleTextView = view.findViewById(R.id.tv_quiz_title);
         pageNumberTextView.setText(String.valueOf(pageNumber));
         pageTitleTextView.setText(pageTitleStringId);
     }

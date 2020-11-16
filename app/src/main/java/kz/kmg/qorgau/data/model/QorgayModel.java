@@ -3,21 +3,22 @@ package kz.kmg.qorgau.data.model;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class QorgayModel implements Serializable {
     Integer dictKorgauObservationTypeId;
     String fullName;
     String phone;
-    String incidentDateTime;
     Integer organizationId;
     Boolean isContractor;
     String contractor;
     Integer organizationDepartmentId;
     Integer supervisedOrganizationId;
     String supervisedObject;
-    Integer[] dictKorgauObservationCategories;
+    Set<Integer> dictKorgauObservationCategories = new HashSet<>();
     String suggestion;
-    File[] files;
+    ArrayList<File> files = new ArrayList<>();
     String possibleConsequence;
     String measure;
     String actionToEncourage;
@@ -25,50 +26,12 @@ public class QorgayModel implements Serializable {
     Boolean isInformed;
     String informTo;
     Boolean isEliminated;
-
+    String date;
+    String time;
 
     public QorgayModel(
-            Integer dictKorgauObservationTypeId,
-            String fullName,
-            String phone,
-            String incidentDateTime,
-            Integer organizationId,
-            Boolean isContractor,
-            String contractor,
-            Integer organizationDepartmentId,
-            Integer supervisedOrganizationId,
-            String supervisedObject,
-            Integer[] dictKorgauObservationCategories,
-            String suggestion, 
-            File[] files,
-            String possibleConsequence, 
-            String measure, 
-            String actionToEncourage, 
-            Boolean isDiscussed, 
-            Boolean isInformed, 
-            String informTo, 
-            Boolean isEliminated
     ) {
-        this.dictKorgauObservationTypeId = dictKorgauObservationTypeId;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.incidentDateTime = incidentDateTime;
-        this.organizationId = organizationId;
-        this.isContractor = isContractor;
-        this.contractor = contractor;
-        this.organizationDepartmentId = organizationDepartmentId;
-        this.supervisedOrganizationId = supervisedOrganizationId;
-        this.supervisedObject = supervisedObject;
-        this.dictKorgauObservationCategories = dictKorgauObservationCategories;
-        this.suggestion = suggestion;
-        this.files = files;
-        this.possibleConsequence = possibleConsequence;
-        this.measure = measure;
-        this.actionToEncourage = actionToEncourage;
-        this.isDiscussed = isDiscussed;
-        this.isInformed = isInformed;
-        this.informTo = informTo;
-        this.isEliminated = isEliminated;
+
     }
 
     public Integer getDictKorgauObservationTypeId() {
@@ -96,11 +59,23 @@ public class QorgayModel implements Serializable {
     }
 
     public String getIncidentDateTime() {
-        return incidentDateTime;
+        return ((date!= null)?(date + " "):"") + ((time!= null)?time:"");
     }
 
-    public void setIncidentDateTime(String incidentDateTime) {
-        this.incidentDateTime = incidentDateTime;
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Integer getOrganizationId() {
@@ -127,13 +102,10 @@ public class QorgayModel implements Serializable {
         this.supervisedOrganizationId = supervisedOrganizationId;
     }
 
-    public Integer[] getDictKorgauObservationCategories() {
+    public Set<Integer> getDictKorgauObservationCategories() {
         return dictKorgauObservationCategories;
     }
 
-    public void setDictKorgauObservationCategories(ArrayList<Integer> dictKorgauObservationCategories) {
-        this.dictKorgauObservationCategories = dictKorgauObservationCategories.toArray(new Integer[0]);
-    }
 
     public String getSuggestion() {
         return suggestion;
@@ -143,13 +115,10 @@ public class QorgayModel implements Serializable {
         this.suggestion = suggestion;
     }
 
-    public File[] getFiles() {
+    public ArrayList<File> getFiles() {
         return files;
     }
 
-    public void setFiles(File[] files) {
-        this.files = files;
-    }
 
     public String getPossibleConsequence() {
         return possibleConsequence;
@@ -203,12 +172,16 @@ public class QorgayModel implements Serializable {
         return isEliminated;
     }
 
-    public Boolean getContractor() {
+    public Boolean getIsContractor() {
         return isContractor;
     }
 
     public void setContractor(String contractor) {
         this.contractor = contractor;
+    }
+
+    public String getContractor() {
+        return this.contractor;
     }
 
     public String getSupervisedObject() {
@@ -219,7 +192,7 @@ public class QorgayModel implements Serializable {
         this.supervisedObject = supervisedObject;
     }
 
-    public void setDictKorgauObservationCategories(Integer[] dictKorgauObservationCategories) {
+    public void setDictKorgauObservationCategories(Set<Integer> dictKorgauObservationCategories) {
         this.dictKorgauObservationCategories = dictKorgauObservationCategories;
     }
 
@@ -235,7 +208,7 @@ public class QorgayModel implements Serializable {
         return isEliminated;
     }
 
-    public void setContractor(Boolean contractor) {
+    public void setIsContractor(Boolean contractor) {
         isContractor = contractor;
     }
 

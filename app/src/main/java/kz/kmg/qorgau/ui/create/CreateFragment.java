@@ -5,8 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -15,8 +15,6 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
-import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage11Fragment;
@@ -69,7 +67,6 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
         viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
 
 
-
         Bundle stepPickerArguments = new Bundle();
         stepPickerArguments.putInt(PageNumberPickerFragment.ARGUMENT_STEP_COUNT, PAGES_COUNT);
         pageNumberPickerFragment.setArguments(stepPickerArguments);
@@ -83,7 +80,7 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                checkIfFinished(position);
+                checkIfLastStep(position);
                 pageNumberPickerFragment.stepsAdapter.setCurrentStep(position);
             }
         });
@@ -92,11 +89,11 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
 
     @Override
     public void onPageChosen(int stepNumber) {
-        checkIfFinished(stepNumber);
+        checkIfLastStep(stepNumber);
         pager.setCurrentItem(stepNumber, true);
     }
 
-    private void checkIfFinished(int stepNumber) {
+    private void checkIfLastStep(int stepNumber) {
         if (stepNumber == (PAGES_COUNT - 1)) {
             nextButton.setText(R.string.done);
             nextButton.setOnClickListener(v -> {
@@ -110,9 +107,19 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
                             nextButton.setEnabled(true);
                             Boolean isSuccess = createQorgayModelResource.data.getIsSuccess();
                             if (isSuccess) {
-                                onToast("Success");
+
+
+                                viewModel.clearQorgay();
+                                CreateQorgaySuccessDialog dialog = new CreateQorgaySuccessDialog();
+                                dialog.listener = new CreateQorgaySuccessDialog.CreateQorgaySuccessDialogListener() {
+                                    @Override
+                                    public void onDialogClosed() {
+                                        NavHostFragment.findNavController(CreateFragment.this).navigate(R.id.navigation_create);
+                                    }
+                                };
+                                dialog.show(getChildFragmentManager(), null);
                             } else {
-                                onToast("No Success");
+                                onToast(getString(R.string.fill_empty_fields));
                             }
                             break;
                         case LOADING:
