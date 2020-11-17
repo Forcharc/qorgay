@@ -15,6 +15,8 @@ import android.widget.Button;
 
 import butterknife.BindView;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.data.local.LocalStorage;
+import kz.kmg.qorgau.data.local.SharedPrefStorage;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.create.pages.BaseQorgayPageFragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
@@ -34,10 +36,12 @@ import kz.kmg.qorgau.ui.create.pages.QorgayPage6Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage7Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage8Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
+import kz.kmg.qorgau.ui.main.MainActivity;
 
 public class CreateFragment extends BaseFragment implements OnStepClickListener, BaseQorgayPageFragment.OnNextPageRequestListener {
 
     CreateQorgayViewModel viewModel;
+    LocalStorage prefStorage;
 
     static final int PAGES_COUNT = 17;
 
@@ -65,6 +69,7 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        prefStorage = ((MainActivity) getActivity()).prefStorage;
         viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
 
 
@@ -98,7 +103,7 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
         if (stepNumber == (PAGES_COUNT - 1)) {
             nextButton.setText(R.string.done);
             nextButton.setOnClickListener(v -> {
-                viewModel.createQorgay().observe(getViewLifecycleOwner(), createQorgayModelResource -> {
+                viewModel.createQorgay(prefStorage.getNotificationToken()).observe(getViewLifecycleOwner(), createQorgayModelResource -> {
                     switch (createQorgayModelResource.status) {
                         case ERROR:
                             nextButton.setEnabled(true);

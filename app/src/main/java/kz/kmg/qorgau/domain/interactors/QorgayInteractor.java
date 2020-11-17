@@ -29,7 +29,8 @@ public class QorgayInteractor {
 
     public static @NotNull
     Flowable<Resource<CreateQorgayModel>> addQorgay(QorgayApi qorgayApi,
-                                         QorgayModel qorgay
+                                                    QorgayModel qorgay,
+                                                    String notificationToken
     ) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
@@ -58,6 +59,7 @@ public class QorgayInteractor {
         addNotNull(builder, "IsInformed", qorgay.isInformed());
         addNotNull(builder, "InformTo", qorgay.getInformTo());
         addNotNull(builder, "IsEliminated", qorgay.isEliminated());
+        addNotNull(builder, "PhoneUID", notificationToken);
 
         for (int i = 0; qorgay.getFiles() != null && i < qorgay.getFiles().size(); i++) {
             File file = qorgay.getFiles().get(i);

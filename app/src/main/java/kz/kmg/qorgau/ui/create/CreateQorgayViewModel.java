@@ -56,8 +56,8 @@ public class CreateQorgayViewModel extends BaseViewModel {
 */
 
 
-    public LiveData<Resource<CreateQorgayModel>> createQorgay() {
-        final LiveData<Resource<CreateQorgayModel>> responseObservationTypes = LiveDataReactiveStreams.fromPublisher(QorgayInteractor.addQorgay(qorgayApi, qorgayModel));
+    public LiveData<Resource<CreateQorgayModel>> createQorgay(String notificationToken) {
+        final LiveData<Resource<CreateQorgayModel>> responseObservationTypes = LiveDataReactiveStreams.fromPublisher(QorgayInteractor.addQorgay(qorgayApi, qorgayModel, notificationToken));
 
         return responseObservationTypes;
     }

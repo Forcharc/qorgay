@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "806115294787",
+    "firebase_url": "https://qorgay.firebaseio.com",
+    "project_id": "qorgay",
+    "storage_bucket": "qorgay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806115294787:android:ca0b6d1ed87852ae289ef6",
+        "android_client_info": {
+          "package_name": "kz.kmg.qorgau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806115294787-af2kc50d3vc7u8t3ip4c7gm86h6nftcr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKJMl-xTbYZirE3U3iLsGGpeZkWdDVVgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806115294787-af2kc50d3vc7u8t3ip4c7gm86h6nftcr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "806115294787-ocef62fuh4queie42ksl01qio9i750vb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kmgkumkol.kz.Qorgau-card",
+                "app_store_id": "1523308333"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

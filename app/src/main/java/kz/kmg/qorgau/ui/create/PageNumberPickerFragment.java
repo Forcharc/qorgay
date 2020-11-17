@@ -171,7 +171,6 @@ public class PageNumberPickerFragment extends Fragment implements OnStepClickLis
                 // TODO textview sometimes displays wrong number, but step value is right
                 stepTextView.setText(String.valueOf(step + 1));
                 stepTextView.setOnClickListener(v -> {
-                    Log.d(TAG, "onclick: step" + (step + 1));
                     setCurrentStep(step);
                 });
 

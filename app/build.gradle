@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 def isCi = "true".equals(System.getenv("CI"))
 def preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
@@ -116,6 +117,11 @@ dependencies {
     def reactive_streams_v = '2.3.0-alpha07'
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$reactive_streams_v"
 
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
 
     //Custom design
     implementation 'com.wang.avi:library:2.1.3'
