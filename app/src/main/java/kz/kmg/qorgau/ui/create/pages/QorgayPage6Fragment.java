@@ -9,11 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.data.model.SearchableIdModel;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
+import kz.kmg.qorgau.data.model.create.OrganizationModel;
 
 public class QorgayPage6Fragment extends BaseQorgayPageFragment {
     private static final String TAG = "QorgayPage6Fragment";
@@ -101,27 +105,18 @@ public class QorgayPage6Fragment extends BaseQorgayPageFragment {
         if (data.size() == 0) {
             onToast(getString(R.string.no_departments));
         } else {
-            String[] departmentNames = new String[data.size()];
-
+            ArrayList<SearchableIdModel> searchableDepartments = new ArrayList<SearchableIdModel>(data.size());
+            DepartmentModel currentDepartment;
             for (int i = 0; i < data.size(); i++) {
-                String departmentName = data.get(i).getNameRu();
-                if (departmentName == null) {
-                    departmentName = "";
-                }
-                departmentNames[i] = departmentName;
+                currentDepartment = data.get(i);
+                searchableDepartments.add(new SearchableIdModel(currentDepartment.getId(), currentDepartment.getNameRu()));
             }
 
-            dialogBuilder.setItems(departmentNames, (dialog, which) -> {
-                viewModel.setPage6OrganizationDepartmentId(data.get(which).getId());
-                departmentTextView.setText(data.get(which).getNameRu());
-            });
-
-
-            dialogBuilder.setNegativeButton(R.string.cancel, (dialog, which) -> {
+            new SimpleSearchDialogCompat<SearchableIdModel>(requireContext(), getString(R.string.department), "", null, searchableDepartments, (dialog, item, position) -> {
+                viewModel.setPage6OrganizationDepartmentId(item.getId());
+                departmentTextView.setText(item.getTitle());
                 dialog.dismiss();
-            });
-
-            dialogBuilder.create().show();
+            }).show();
         }
     }
 

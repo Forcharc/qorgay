@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.data.model;
+package kz.kmg.qorgau.data.model.create;
 
 import java.io.File;
 import java.io.Serializable;

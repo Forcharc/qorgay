@@ -4,16 +4,13 @@ package kz.kmg.qorgau.domain.interactors;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
-import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.QorgayModel;
+import kz.kmg.qorgau.data.model.create.QorgayModel;
 import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.ObservationCategoryModel;

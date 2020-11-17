@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import kz.kmg.qorgau.data.model.QorgayModel;
+import kz.kmg.qorgau.data.model.create.QorgayModel;
 import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.ObservationCategoryModel;

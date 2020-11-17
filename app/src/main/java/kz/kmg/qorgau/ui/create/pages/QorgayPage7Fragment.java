@@ -11,10 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.data.model.SearchableIdModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
 
 public class QorgayPage7Fragment extends BaseQorgayPageFragment {
@@ -102,26 +105,20 @@ public class QorgayPage7Fragment extends BaseQorgayPageFragment {
     }
 
     void showOrganizationsChooser(List<OrganizationModel> data) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
-
-        String[] organizationNames = new String[data.size()];
-
+        ArrayList<SearchableIdModel> searchableOrganizations = new ArrayList<SearchableIdModel>(data.size());
+        OrganizationModel currentOrganization;
         for (int i = 0; i < data.size(); i++) {
-            organizationNames[i] = data.get(i).getName();
+            currentOrganization = data.get(i);
+            searchableOrganizations.add(new SearchableIdModel(currentOrganization.getId(), currentOrganization.getName()));
         }
 
-        dialogBuilder.setItems(organizationNames, (dialog, which) -> {
-            viewModel.setPage7SupervisedOrganizationId(data.get(which).getId());
-            supervisedOrganizationTextView.setText(data.get(which).getName());
+        new SimpleSearchDialogCompat<SearchableIdModel>(requireContext(), getString(R.string.supervised_organization2), "", null, searchableOrganizations, (dialog, item, position) -> {
+            viewModel.setPage7SupervisedOrganizationId(item.getId());
+            supervisedOrganizationTextView.setText(item.getTitle());
             objectEditText.setVisibility(View.VISIBLE);
-        });
-
-
-        dialogBuilder.setNegativeButton(R.string.cancel, (dialog, which) -> {
             dialog.dismiss();
-        });
+        }).show();
 
-        dialogBuilder.create().show();
     }
 
     @Override

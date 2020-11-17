@@ -1,7 +1,5 @@
 package kz.kmg.qorgau.ui.create.pages;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,10 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import kz.kmg.qorgau.R;
+import kz.kmg.qorgau.data.model.SearchableIdModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
 
 public class QorgayPage5Fragment extends BaseQorgayPageFragment {
@@ -45,13 +48,17 @@ public class QorgayPage5Fragment extends BaseQorgayPageFragment {
 
         contractorEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 viewModel.setPage5Contractor(s.toString());
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -102,26 +109,20 @@ public class QorgayPage5Fragment extends BaseQorgayPageFragment {
     }
 
     void showOrganizationsChooser(List<OrganizationModel> data) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
 
-        String[] organizationNames = new String[data.size()];
-
+        ArrayList<SearchableIdModel> searchableOrganizations = new ArrayList<SearchableIdModel>(data.size());
+        OrganizationModel currentOrganization;
         for (int i = 0; i < data.size(); i++) {
-            organizationNames[i] = data.get(i).getName();
+            currentOrganization = data.get(i);
+            searchableOrganizations.add(new SearchableIdModel(currentOrganization.getId(), currentOrganization.getName()));
         }
 
-        dialogBuilder.setItems(organizationNames, (dialog, which) -> {
-            viewModel.setPage5OrganizationId(data.get(which).getId());
-            organizationTextView.setText(data.get(which).getName());
+        new SimpleSearchDialogCompat<SearchableIdModel>(requireContext(), getString(R.string.organization), "", null, searchableOrganizations, (dialog, item, position) -> {
+            viewModel.setPage5OrganizationId(item.getId());
+            organizationTextView.setText(item.getTitle());
             contractorEditText.setVisibility(View.VISIBLE);
-        });
-
-
-        dialogBuilder.setNegativeButton(R.string.cancel, (dialog, which) -> {
             dialog.dismiss();
-        });
-
-        dialogBuilder.create().show();
+        }).show();
     }
 
     @Override
