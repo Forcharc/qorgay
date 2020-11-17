@@ -26,7 +26,7 @@
         android:layout_marginTop="14dp"
         android:fontFamily="@font/sfui_display_regular"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/tv_step_number"
         app:layout_constraintTop_toTopOf="@id/tv_step_number"
         tools:text="Тип наблюдения:" />
