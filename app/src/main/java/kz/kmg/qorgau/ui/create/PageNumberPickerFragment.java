@@ -81,12 +81,14 @@ public class PageNumberPickerFragment extends Fragment implements OnStepClickLis
         });
 
         stepsRecyclerView.setAdapter(stepsAdapter);
+        stepsRecyclerView.setItemAnimator(null);
         stepsRecyclerView.setLayoutManager(new CenteredLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false) {
             @Override
             public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
                 lp.width = (int) ((double) getWidth() * 0.2);
                 return true;
             }
+
         });
         stepsRecyclerView.setHasFixedSize(true);
     }
