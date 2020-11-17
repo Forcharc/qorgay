@@ -60,6 +60,8 @@ public class QorgayPage5Fragment extends BaseQorgayPageFragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        contractorEditText.setOnEditorActionListener(onEditorActionNextPage);
     }
 
 

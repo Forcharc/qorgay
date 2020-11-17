@@ -28,8 +28,8 @@ public class QorgayPage4Fragment extends BaseQorgayPageFragment implements DateP
 
     Calendar nowCalendar = Calendar.getInstance();
 
-    DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.getDefault());
-    DateFormat timeFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT, Locale.getDefault());
+    DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
     public QorgayPage4Fragment() {
         super(4, R.string.date_time);

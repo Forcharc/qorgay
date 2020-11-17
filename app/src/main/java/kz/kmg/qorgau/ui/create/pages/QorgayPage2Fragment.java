@@ -41,6 +41,8 @@ public class QorgayPage2Fragment extends BaseQorgayPageFragment {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        fullNameEditText.setOnEditorActionListener(onEditorActionNextPage);
     }
 
 

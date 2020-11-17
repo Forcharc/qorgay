@@ -51,15 +51,6 @@ public class QorgayInteractor {
             }
         }
         addNotNull(builder, "Suggestion", qorgay.getSuggestion());
-
-
-        for (int i = 0; qorgay.getFiles() != null && i < qorgay.getFiles().size(); i++) {
-            File file = qorgay.getFiles().get(i);
-            String mimeType = FileUtil.getMimeType(file.getAbsolutePath());
-            RequestBody fileRequestBody = RequestBody.create(file, MediaType.get(mimeType));
-            builder.addFormDataPart("Files[" + i + "]", qorgay.getFiles().get(i).getName(), fileRequestBody);
-        }
-
         addNotNull(builder, "PossibleConsequence", qorgay.getPossibleConsequence());
         addNotNull(builder, "Measure", qorgay.getMeasure());
         addNotNull(builder, "ActionToEncourage", qorgay.getActionToEncourage());
@@ -67,6 +58,13 @@ public class QorgayInteractor {
         addNotNull(builder, "IsInformed", qorgay.isInformed());
         addNotNull(builder, "InformTo", qorgay.getInformTo());
         addNotNull(builder, "IsEliminated", qorgay.isEliminated());
+
+        for (int i = 0; qorgay.getFiles() != null && i < qorgay.getFiles().size(); i++) {
+            File file = qorgay.getFiles().get(i);
+            String mimeType = FileUtil.getMimeType(file.getAbsolutePath());
+            RequestBody fileRequestBody = RequestBody.create(file, MediaType.get(mimeType));
+            builder.addFormDataPart("Files[" + i + "]", qorgay.getFiles().get(i).getName(), fileRequestBody);
+        }
 
         try {
             return qorgayApi.addQorgay(builder.build())

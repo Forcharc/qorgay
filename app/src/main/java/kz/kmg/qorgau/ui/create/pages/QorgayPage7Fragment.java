@@ -57,6 +57,8 @@ public class QorgayPage7Fragment extends BaseQorgayPageFragment {
             public void afterTextChanged(Editable s) { }
         });
 
+
+        objectEditText.setOnEditorActionListener(onEditorActionNextPage);
     }
 
     private void initSupervisedOrganizations() {

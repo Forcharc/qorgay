@@ -38,6 +38,8 @@ public class QorgayPage16Fragment extends BaseQorgayPageFragment {
             public void afterTextChanged(Editable s) { }
         });
 
+        informToEditText.setOnEditorActionListener(onEditorActionNextPage);
+
     }
 
     @Override

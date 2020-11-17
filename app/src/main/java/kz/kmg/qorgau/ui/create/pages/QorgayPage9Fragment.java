@@ -38,6 +38,8 @@ public class QorgayPage9Fragment extends BaseQorgayPageFragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        suggestionEditText.setOnEditorActionListener(onEditorActionNextPage);
     }
 
     @Override

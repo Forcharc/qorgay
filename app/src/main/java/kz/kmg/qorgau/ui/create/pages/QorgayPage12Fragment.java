@@ -36,6 +36,8 @@ public class QorgayPage12Fragment extends BaseQorgayPageFragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        measuresEditText.setOnEditorActionListener(onEditorActionNextPage);
     }
 
     @Override

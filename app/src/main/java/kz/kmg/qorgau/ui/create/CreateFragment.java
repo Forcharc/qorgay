@@ -16,6 +16,7 @@ import android.widget.Button;
 import butterknife.BindView;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
+import kz.kmg.qorgau.ui.create.pages.BaseQorgayPageFragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage11Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage12Fragment;
@@ -34,7 +35,7 @@ import kz.kmg.qorgau.ui.create.pages.QorgayPage7Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage8Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
 
-public class CreateFragment extends BaseFragment implements OnStepClickListener {
+public class CreateFragment extends BaseFragment implements OnStepClickListener, BaseQorgayPageFragment.OnNextPageRequestListener {
 
     CreateQorgayViewModel viewModel;
 
@@ -109,15 +110,14 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
                             if (isSuccess) {
 
 
+/*
                                 viewModel.clearQorgay();
+*/
                                 CreateQorgaySuccessDialog dialog = new CreateQorgaySuccessDialog();
-                                dialog.listener = new CreateQorgaySuccessDialog.CreateQorgaySuccessDialogListener() {
-                                    @Override
-                                    public void onDialogClosed() {
-                                        NavHostFragment.findNavController(CreateFragment.this).navigate(R.id.navigation_create);
-                                    }
-                                };
+/*
+                                dialog.listener = () -> NavHostFragment.findNavController(CreateFragment.this).navigate(R.id.navigation_create);
                                 dialog.show(getChildFragmentManager(), null);
+*/
                             } else {
                                 onToast(getString(R.string.fill_empty_fields));
                             }
@@ -136,6 +136,11 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
                 }
             });
         }
+    }
+
+    @Override
+    public void onNextPage() {
+        nextButton.performClick();
     }
 
     class CreateQorgayPagesAdapter extends FragmentStateAdapter {

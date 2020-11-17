@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +31,6 @@ public class QorgayPage3Fragment extends BaseQorgayPageFragment {
         public void afterTextChanged(Editable s) {
         }
     };
-    private final TextView.OnEditorActionListener onEditorActionListener = (v, actionId, event) -> false;
 
     public QorgayPage3Fragment() {
         super(3, R.string.phone_number);
@@ -47,7 +44,7 @@ public class QorgayPage3Fragment extends BaseQorgayPageFragment {
 
         phoneNumberEditText.addTextChangedListener(textWatcher);
 
-        phoneNumberEditText.setOnEditorActionListener(onEditorActionListener);
+        phoneNumberEditText.setOnEditorActionListener(onEditorActionNextPage);
 
         phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
