@@ -28,6 +28,11 @@ public class CenteredLayoutManager extends LinearLayoutManager {
         startSmoothScroll(smoothScroller);
     }
 
+    @Override
+    public void scrollToPosition(int position) {
+        super.scrollToPosition(position);
+    }
+
     private static class CenterSmoothScroller extends LinearSmoothScroller {
 
         CenterSmoothScroller(Context context) {
@@ -39,4 +44,5 @@ public class CenteredLayoutManager extends LinearLayoutManager {
             return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2);
         }
     }
+
 }

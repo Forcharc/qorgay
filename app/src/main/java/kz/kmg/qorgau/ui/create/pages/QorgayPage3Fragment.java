@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,22 @@ public class QorgayPage3Fragment extends BaseQorgayPageFragment {
     @BindView(R.id.et_phone_number)
     EditText phoneNumberEditText;
 
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            viewModel.setPage3PhoneNumber(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+    private final TextView.OnEditorActionListener onEditorActionListener = (v, actionId, event) -> false;
+
     public QorgayPage3Fragment() {
         super(3, R.string.phone_number);
     }
@@ -27,22 +45,9 @@ public class QorgayPage3Fragment extends BaseQorgayPageFragment {
 
         phoneNumberEditText.setText(viewModel.getPage3PhoneNumber());
 
-        phoneNumberEditText.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+        phoneNumberEditText.addTextChangedListener(textWatcher);
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        viewModel.setPage3PhoneNumber(s.toString());
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                    }
-                }
-        );
+        phoneNumberEditText.setOnEditorActionListener(onEditorActionListener);
 
         phoneNumberEditText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }

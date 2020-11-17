@@ -17,7 +17,7 @@ import dagger.android.support.DaggerFragment;
 
 public abstract class BaseFragment extends DaggerFragment {
 
-    private Unbinder unbinder;
+    public Unbinder unbinder;
 
 
     @Override

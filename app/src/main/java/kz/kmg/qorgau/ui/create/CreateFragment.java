@@ -208,4 +208,9 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener 
             return PAGES_COUNT;
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

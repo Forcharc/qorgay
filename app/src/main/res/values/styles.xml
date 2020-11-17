@@ -36,7 +36,7 @@
     <style name="AppTheme.StepPickerNumber" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/sfui_display_medium</item>
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="AppTheme.StepPickerNumber.Picked">
