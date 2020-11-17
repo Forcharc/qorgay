@@ -110,14 +110,11 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
                             if (isSuccess) {
 
 
-/*
                                 viewModel.clearQorgay();
-*/
                                 CreateQorgaySuccessDialog dialog = new CreateQorgaySuccessDialog();
-/*
+
                                 dialog.listener = () -> NavHostFragment.findNavController(CreateFragment.this).navigate(R.id.navigation_create);
                                 dialog.show(getChildFragmentManager(), null);
-*/
                             } else {
                                 onToast(getString(R.string.fill_empty_fields));
                             }
