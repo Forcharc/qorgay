@@ -44,4 +44,10 @@
         tools:layout="@layout/fragment_questionnaire_list"
         android:name="kz.kmg.qorgau.ui.home.questionnaire.QuestionnaireListFragment"
         android:label="@string/questionnaires" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login"
+        android:name="kz.kmg.qorgau.ui.profile.LoginFragment"
+        android:label="@string/title_nav_profile" />
 </navigation>

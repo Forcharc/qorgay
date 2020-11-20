@@ -2,6 +2,7 @@ package kz.kmg.qorgau.ui.main.modules;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import kz.kmg.qorgau.domain.interactors.ProfileInteractor;
 import kz.kmg.qorgau.ui.create.CreateFragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage11Fragment;
@@ -23,6 +24,7 @@ import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
 import kz.kmg.qorgau.ui.home.HomeFragment;
 import kz.kmg.qorgau.ui.list.ListFragment;
 import kz.kmg.qorgau.ui.notifications.NotificationsFragment;
+import kz.kmg.qorgau.ui.profile.LoginFragment;
 import kz.kmg.qorgau.ui.profile.ProfileFragment;
 
 
@@ -94,4 +96,8 @@ public abstract class MainFragmentsBuildersModule {
 
     @ContributesAndroidInjector
     abstract QorgayPage17Fragment qorgayPage17Fragment();
+
+    @ContributesAndroidInjector
+    abstract LoginFragment loginFragment();
+
 }

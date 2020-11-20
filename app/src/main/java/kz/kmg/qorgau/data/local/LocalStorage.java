@@ -3,6 +3,9 @@ package kz.kmg.qorgau.data.local;
 
 public interface LocalStorage {
 
-    public void setNotificationToken(String notificationToken);
-    public String getNotificationToken();
+    void setNotificationToken(String notificationToken);
+    String getNotificationToken();
+
+    void setCookie(String cookie);
+    String getCookie();
 }

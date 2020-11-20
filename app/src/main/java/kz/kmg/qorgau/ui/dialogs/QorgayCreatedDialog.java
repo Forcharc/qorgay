@@ -1,6 +1,7 @@
-package kz.kmg.qorgau.ui.create;
+package kz.kmg.qorgau.ui.dialogs;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -26,9 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kmg.qorgau.R;
 
-public class CreateQorgaySuccessDialog extends BottomSheetDialogFragment {
+public class QorgayCreatedDialog extends BaseBottomSheetDialogFragment{
     @BindView(R.id.b_close)
-    Button closeButton;
+    public Button closeButton;
 
     public CreateQorgaySuccessDialogListener listener;
 
@@ -45,44 +46,28 @@ public class CreateQorgaySuccessDialog extends BottomSheetDialogFragment {
     }
 
     @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        if (listener != null) {
+            listener.onDialogClosed();
+        }
+        super.onDismiss(dialog);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setCancelable(false);
 
         closeButton.setOnClickListener(v -> {
-                    if (listener != null) {
-                        listener.onDialogClosed();
-                    }
                     dismiss();
                 }
         );
     }
 
-    @NonNull
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
-        bottomSheetDialog.setOnShowListener(dialog -> {
-            BottomSheetDialog d = (BottomSheetDialog) dialog;
-            FrameLayout bottomSheet = (FrameLayout) d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) bottomSheet.getLayoutParams();
-
-
-            Resources r = getContext().getResources();
-            int px = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    20,
-                    r.getDisplayMetrics()
-            );
-            lp.setMargins(px, 0, px, 0);
-            bottomSheet.requestLayout();
-
-
-            BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_COLLAPSED);
-            BottomSheetBehavior.from(bottomSheet).setSkipCollapsed(true);
-        });
-
-        return bottomSheetDialog;
+    void configureLayout(FrameLayout bottomSheet) {
+        BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_COLLAPSED);
+        BottomSheetBehavior.from(bottomSheet).setSkipCollapsed(true);
     }
 }

@@ -55,4 +55,33 @@
     <string name="fill_empty_fields">Заполните все поля</string>
     <string name="online_notifications">Онлайн уведомления</string>
     <string name="notification_title">Qorgay</string>
+    <string name="suggestion">Описание наблюдения/предложения</string>
+    <string name="organization_name">Наименование организации</string>
+    <string name="fullname">ФИО</string>
+    <string name="no_items">Нет добавленных элементов</string>
+    <string name="add">Добавить</string>
+    <string name="system_login">Вход в систему</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_password"><u>Забыли пароль?</u></string>
+    <string name="enter">Войти</string>
+    <string name="profile">Профиль</string>
+    <string name="incorrect_login_or_pass">Неверный логин или пароль</string>
+    <string name="fill_login_and_pass">Заполните логин и пароль</string>
+    <string name="email">E-mail</string>
+    <string name="phone">Телефон</string>
+    <string name="birth_date">Дата рождения</string>
+    <string name="skype">Skype</string>
+    <string name="not_provided">Не задано</string>
+    <string name="exit">Выйти</string>
+    <string name="today">Сегодня</string>
+    <string name="seen">Просмотренные</string>
+    <string name="notifications">Уведомления</string>
+    <string name="no_notifications">Уведомления отсутствуют</string>
+
+    <plurals name="new_notifications_count">
+        <item quantity="one">%d новое уведомление</item>
+        <item quantity="few">%d новых уведомления</item>
+        <item quantity="other">%d новых уведомлений</item>
+    </plurals>
 </resources>

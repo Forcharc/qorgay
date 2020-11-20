@@ -11,12 +11,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.View;
-import android.widget.Button;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import butterknife.BindView;
+import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.data.local.LocalStorage;
-import kz.kmg.qorgau.data.local.SharedPrefStorage;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.create.pages.BaseQorgayPageFragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage10Fragment;
@@ -36,11 +36,11 @@ import kz.kmg.qorgau.ui.create.pages.QorgayPage6Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage7Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage8Fragment;
 import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
-import kz.kmg.qorgau.ui.main.MainActivity;
+import kz.kmg.qorgau.ui.dialogs.QorgayCreatedDialog;
 
 public class CreateFragment extends BaseFragment implements OnStepClickListener, BaseQorgayPageFragment.OnNextPageRequestListener {
 
-    CreateQorgayViewModel viewModel;
+    QorgayViewModel viewModel;
     LocalStorage prefStorage;
 
     static final int PAGES_COUNT = 17;
@@ -49,7 +49,7 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
     ViewPager2 pager;
 
     @BindView(R.id.b_next)
-    Button nextButton;
+    CircularProgressButton nextButton;
 
     PageNumberPickerFragment pageNumberPickerFragment = new PageNumberPickerFragment();
 
@@ -69,8 +69,8 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        prefStorage = ((MainActivity) getActivity()).prefStorage;
-        viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
+        prefStorage = ((QorgauApp) getActivity().getApplication()).prefStorage;
+        viewModel = new ViewModelProvider(getActivity()).get(QorgayViewModel.class);
 
 
         Bundle stepPickerArguments = new Bundle();
@@ -107,16 +107,17 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
                     switch (createQorgayModelResource.status) {
                         case ERROR:
                             nextButton.setEnabled(true);
+                            nextButton.revertAnimation();
                             onToast(createQorgayModelResource.apiError.getMessage());
                             break;
                         case SUCCESS:
                             nextButton.setEnabled(true);
+                            nextButton.revertAnimation();
                             Boolean isSuccess = createQorgayModelResource.data.getIsSuccess();
                             if (isSuccess) {
 
-
                                 viewModel.clearQorgay();
-                                CreateQorgaySuccessDialog dialog = new CreateQorgaySuccessDialog();
+                                QorgayCreatedDialog dialog = new QorgayCreatedDialog();
 
                                 dialog.listener = () -> NavHostFragment.findNavController(CreateFragment.this).navigate(R.id.navigation_create);
                                 dialog.show(getChildFragmentManager(), null);
@@ -126,6 +127,7 @@ public class CreateFragment extends BaseFragment implements OnStepClickListener,
                             break;
                         case LOADING:
                             nextButton.setEnabled(false);
+                            nextButton.startAnimation();
                             break;
                     }
                 });

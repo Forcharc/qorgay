@@ -14,6 +14,8 @@ public class SharedPrefStorage implements LocalStorage {
 
     private static final String KEY_NOTIFICATIONS_TOKEN = "KEY_NOTIFICATIONS_TOKEN";
 
+    private static final String KEY_COOKIE= "KEY_COOKIE";
+
     public SharedPrefStorage(Context context) {
         this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
@@ -27,6 +29,18 @@ public class SharedPrefStorage implements LocalStorage {
 
     @Override
     public String getNotificationToken() {
-        return preferences.getString(KEY_NOTIFICATIONS_TOKEN, null);
+        return preferences.getString(KEY_NOTIFICATIONS_TOKEN, "0");
+    }
+
+    @Override
+    public void setCookie(String cookie) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(KEY_COOKIE, cookie);
+        editor.apply();
+    }
+
+    @Override
+    public String getCookie() {
+        return preferences.getString(KEY_COOKIE, null);
     }
 }

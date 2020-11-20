@@ -10,12 +10,13 @@ import java.util.Set;
 
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
-import kz.kmg.qorgau.data.model.create.QorgayModel;
 import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
+import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.ObservationCategoryModel;
 import kz.kmg.qorgau.data.model.create.ObservationTypeModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
+import kz.kmg.qorgau.data.model.list.QorgayModel;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.base.ApiError;
 import kz.kmg.qorgau.data.network.base.Resource;
@@ -28,8 +29,8 @@ import okhttp3.RequestBody;
 public class QorgayInteractor {
 
     public static @NotNull
-    Flowable<Resource<CreateQorgayModel>> addQorgay(QorgayApi qorgayApi,
-                                                    QorgayModel qorgay,
+    Flowable<Resource<IsSuccessResponse>> addQorgay(QorgayApi qorgayApi,
+                                                    CreateQorgayModel qorgay,
                                                     String notificationToken
     ) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
@@ -75,7 +76,7 @@ public class QorgayInteractor {
                         if (response.isSuccessful()) {
                             return Resource.success(response.body());
                         } else {
-                            return ErrorHelper.<CreateQorgayModel>getQorgayApiError(response);
+                            return ErrorHelper.<IsSuccessResponse>getQorgayApiError(response);
                         }
                     })
                     .subscribeOn(Schedulers.io());
@@ -146,4 +147,19 @@ public class QorgayInteractor {
                 })
                 .subscribeOn(Schedulers.io());
     }
+
+    public static Flowable<Resource<List<QorgayModel>>> getQorgayList(QorgayApi qorgayApi, String phoneUid) {
+
+        return qorgayApi.getQorgayList(phoneUid)
+                .onErrorReturn(ErrorHelper::getErrorResponse)
+                .map(response -> {
+                    if (response.isSuccessful()) {
+                        return Resource.success(response.body());
+                    } else {
+                        return ErrorHelper.<List<QorgayModel>>getQorgayApiError(response);
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+    }
+
 }

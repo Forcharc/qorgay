@@ -9,18 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import kz.kmg.qorgau.data.model.create.QorgayModel;
 import kz.kmg.qorgau.data.model.create.CreateQorgayModel;
+import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.ObservationCategoryModel;
 import kz.kmg.qorgau.data.model.create.ObservationTypeModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
+import kz.kmg.qorgau.data.model.list.QorgayModel;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.domain.interactors.QorgayInteractor;
 import kz.kmg.qorgau.ui.base.view_model.BaseViewModel;
 
-public class CreateQorgayViewModel extends BaseViewModel {
+public class QorgayViewModel extends BaseViewModel {
     private QorgayApi qorgayApi;
 
     private final MediatorLiveData<Resource<List<ObservationTypeModel>>> observationTypes = new MediatorLiveData<>();
@@ -28,7 +29,10 @@ public class CreateQorgayViewModel extends BaseViewModel {
     private final MediatorLiveData<Resource<List<DepartmentModel>>> departments = new MediatorLiveData<>();
     private final MediatorLiveData<Resource<List<ObservationCategoryModel>>> observationCategories = new MediatorLiveData<>();
 
-    private QorgayModel qorgayModel = new QorgayModel();
+    private final MediatorLiveData<Resource<IsSuccessResponse>> createQorgayResponse = new MediatorLiveData<>();
+    private final MediatorLiveData<Resource<List<QorgayModel>>> qorgayList = new MediatorLiveData<>();
+
+    private CreateQorgayModel createQorgayModel = new CreateQorgayModel();
 /*
     private Integer page1ObservationTypeId;
     private String page2FullName;
@@ -56,10 +60,36 @@ public class CreateQorgayViewModel extends BaseViewModel {
 */
 
 
-    public LiveData<Resource<CreateQorgayModel>> createQorgay(String notificationToken) {
-        final LiveData<Resource<CreateQorgayModel>> responseObservationTypes = LiveDataReactiveStreams.fromPublisher(QorgayInteractor.addQorgay(qorgayApi, qorgayModel, notificationToken));
+    public LiveData<Resource<List<QorgayModel>>> getQorgayListLiveData(String phoneUid) {
+        if (qorgayList.getValue() == null || qorgayList.getValue().status == Resource.Status.ERROR) {
+            loadQorgayList(phoneUid);
+        }
+        return qorgayList;
+    }
 
-        return responseObservationTypes;
+    public void loadQorgayList(String phoneUid) {
+        qorgayList.setValue(Resource.loading());
+
+        final LiveData<Resource<List<QorgayModel>>> sourse = LiveDataReactiveStreams.fromPublisher(QorgayInteractor.getQorgayList(qorgayApi, phoneUid));
+
+        qorgayList.addSource(sourse, response -> {
+            qorgayList.setValue(response);
+            qorgayList.removeSource(sourse);
+        });
+    }
+
+
+    public LiveData<Resource<IsSuccessResponse>> createQorgay(String notificationToken) {
+        createQorgayResponse.setValue(Resource.loading());
+
+        final LiveData<Resource<IsSuccessResponse>> response = LiveDataReactiveStreams.fromPublisher(QorgayInteractor.addQorgay(qorgayApi, createQorgayModel, notificationToken));
+
+        createQorgayResponse.addSource(response, res -> {
+            createQorgayResponse.setValue(res);
+            createQorgayResponse.removeSource(response);
+        });
+
+        return createQorgayResponse;
     }
 
     public LiveData<Resource<List<ObservationTypeModel>>> getObservationTypes() {
@@ -110,7 +140,7 @@ public class CreateQorgayViewModel extends BaseViewModel {
 
 
     public void loadDepartments(int organizationId) {
-        qorgayModel.setOrganizationDepartmentId(null);
+        createQorgayModel.setOrganizationDepartmentId(null);
 
         departments.setValue(Resource.loading());
 
@@ -128,168 +158,173 @@ public class CreateQorgayViewModel extends BaseViewModel {
 
 
     public Integer getPage1ObservationTypeId() {
-        return qorgayModel.getDictKorgauObservationTypeId();
+        return createQorgayModel.getDictKorgauObservationTypeId();
     }
 
     public void setPage1ObservationTypeId(int page1ObservationTypeId) {
-        qorgayModel.setDictKorgauObservationTypeId(
+        createQorgayModel.setDictKorgauObservationTypeId(
                 page1ObservationTypeId
         );
     }
 
     public String getPage2FullName() {
-        return qorgayModel.getFullName();
+        return createQorgayModel.getFullName();
     }
 
     public void setPage2FullName(String page2FullName) {
-        qorgayModel.setFullName(page2FullName);
+        createQorgayModel.setFullName(page2FullName);
     }
 
     public String getPage3PhoneNumber() {
-        return qorgayModel.getPhone();
+        return createQorgayModel.getPhone();
     }
 
     public void setPage3PhoneNumber(String page3PhoneNumber) {
-        qorgayModel.setPhone(page3PhoneNumber);
+        createQorgayModel.setPhone(page3PhoneNumber);
     }
 
 
     public Integer getPage5OrganizationId() {
-        return qorgayModel.getOrganizationId();
+        return createQorgayModel.getOrganizationId();
     }
 
     public void setPage5OrganizationId(Integer organizationId) {
         this.loadDepartments(organizationId);
-        qorgayModel.setOrganizationId(organizationId);
+        createQorgayModel.setOrganizationId(organizationId);
     }
 
     public String getPage5Contractor() {
-        return qorgayModel.getContractor();
+        return createQorgayModel.getContractor();
     }
 
     public void setPage5Contractor(String page5Contractor) {
-        qorgayModel.setContractor(page5Contractor);
+        createQorgayModel.setContractor(page5Contractor);
     }
 
     public Integer getPage6OrganizationDepartmentId() {
-        return qorgayModel.getOrganizationDepartmentId();
+        return createQorgayModel.getOrganizationDepartmentId();
     }
 
     public void setPage6OrganizationDepartmentId(Integer page6OrganizationDepartmentId) {
-        qorgayModel.setOrganizationDepartmentId(page6OrganizationDepartmentId);
+        createQorgayModel.setOrganizationDepartmentId(page6OrganizationDepartmentId);
     }
 
     public Integer getPage7SupervisedOrganizationId() {
-        return qorgayModel.getSupervisedOrganizationId();
+        return createQorgayModel.getSupervisedOrganizationId();
     }
 
     public void setPage7SupervisedOrganizationId(Integer page7SupervisedOrganizationId) {
-        qorgayModel.setSupervisedOrganizationId(page7SupervisedOrganizationId);
+        createQorgayModel.setSupervisedOrganizationId(page7SupervisedOrganizationId);
     }
 
     public String getPage7Object() {
-        return qorgayModel.getSupervisedObject();
+        return createQorgayModel.getSupervisedObject();
     }
 
     public void setPage7Object(String page7Object) {
-        qorgayModel.setSupervisedObject(page7Object);
+        createQorgayModel.setSupervisedObject(page7Object);
     }
 
     public Set<Integer> getPage8ObservationCategories() {
-        return qorgayModel.getDictKorgauObservationCategories();
+        return createQorgayModel.getDictKorgauObservationCategories();
     }
 
     public void setPage8ObservationCategories(Set<Integer> page8ObservationCategories) {
-        qorgayModel.setDictKorgauObservationCategories(page8ObservationCategories);
+        createQorgayModel.setDictKorgauObservationCategories(page8ObservationCategories);
     }
 
     public String getPage9Suggestion() {
-        return qorgayModel.getSuggestion();
+        return createQorgayModel.getSuggestion();
     }
 
     public void setPage9Suggestion(String page9Suggestion) {
-        qorgayModel.setSuggestion(page9Suggestion);
+        createQorgayModel.setSuggestion(page9Suggestion);
     }
 
 
     public String getPage4Date() {
-        return qorgayModel.getDate();
+        return createQorgayModel.getDate();
     }
 
     public void setPage4Date(String page4Date) {
-        qorgayModel.setDate(page4Date);
+        createQorgayModel.setDate(page4Date);
     }
 
     public String getPage4Time() {
-        return qorgayModel.getTime();
+        return createQorgayModel.getTime();
     }
 
     public void setPage4Time(String page4Time) {
-        qorgayModel.setTime(page4Time);
+        createQorgayModel.setTime(page4Time);
     }
 
     public String getPage11PossibleConsequence() {
-        return qorgayModel.getPossibleConsequence();
+        return createQorgayModel.getPossibleConsequence();
     }
 
     public void setPage11PossibleConsequence(String page11PossibleConsequence) {
-        qorgayModel.setPossibleConsequence(page11PossibleConsequence);
+        createQorgayModel.setPossibleConsequence(page11PossibleConsequence);
     }
 
     public String getPage12Measure() {
-        return qorgayModel.getMeasure();
+        return createQorgayModel.getMeasure();
     }
 
     public void setPage12Measure(String page12Measure) {
-        qorgayModel.setMeasure(page12Measure);
+        createQorgayModel.setMeasure(page12Measure);
     }
 
     public String getPage13ActionToEncourage() {
-        return qorgayModel.getActionToEncourage();
+        return createQorgayModel.getActionToEncourage();
     }
 
     public void setPage13ActionToEncourage(String page13ActionToEncourage) {
-        qorgayModel.setActionToEncourage(page13ActionToEncourage);
+        createQorgayModel.setActionToEncourage(page13ActionToEncourage);
     }
 
     public Boolean isPage14IsDiscussed() {
-        return qorgayModel.isDiscussed();
+        return createQorgayModel.isDiscussed();
     }
 
     public void setPage14IsDiscussed(Boolean page14IsDiscussed) {
-        qorgayModel.setDiscussed(page14IsDiscussed);
+        createQorgayModel.setDiscussed(page14IsDiscussed);
     }
 
     public Boolean isPage15IsInformed() {
-        return qorgayModel.getInformed();
+        return createQorgayModel.getInformed();
     }
 
     public void setPage15IsInformed(Boolean page15IsInformed) {
-        qorgayModel.setInformed(page15IsInformed);
+        createQorgayModel.setInformed(page15IsInformed);
     }
 
     public String getPage16InformTo() {
-        return qorgayModel.getInformTo();
+        return createQorgayModel.getInformTo();
     }
 
     public void setPage16InformTo(String page16InformTo) {
-        qorgayModel.setInformTo(page16InformTo);
+        createQorgayModel.setInformTo(page16InformTo);
     }
 
     public Boolean isPage17IsEliminated() {
-        return qorgayModel.getEliminated();
+        return createQorgayModel.getEliminated();
     }
 
     public void setPage17IsEliminated(Boolean page17IsEliminated) {
-        qorgayModel.setEliminated(page17IsEliminated);
+        createQorgayModel.setEliminated(page17IsEliminated);
     }
 
     public ArrayList<File> getPage10Files() {
-        return qorgayModel.getFiles();
+        return createQorgayModel.getFiles();
     }
 
 
     public void clearQorgay() {
-        qorgayModel = new QorgayModel();
+        qorgayList.setValue(null);
+        createQorgayModel = new CreateQorgayModel();
+    }
+
+    public void resetList() {
+        qorgayList.setValue(null);
     }
 }

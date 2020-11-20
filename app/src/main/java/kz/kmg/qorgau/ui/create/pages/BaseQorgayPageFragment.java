@@ -9,28 +9,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import butterknife.BindView;
 import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.ui.base.fragment.BaseActivityFragment;
-import kz.kmg.qorgau.ui.create.CreateFragment;
-import kz.kmg.qorgau.ui.create.CreateQorgayViewModel;
+import kz.kmg.qorgau.ui.create.QorgayViewModel;
 import kz.kmg.qorgau.ui.main.MainActivity;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_NEXT;
 import static android.view.inputmethod.EditorInfo.IME_ACTION_SEND;
-import static android.view.inputmethod.EditorInfo.IME_NULL;
 
 
 public abstract class BaseQorgayPageFragment extends BaseActivityFragment<MainActivity> {
 
     private static final String TAG = "BaseQorgayPageFragment";
 
-    protected CreateQorgayViewModel viewModel;
+    protected QorgayViewModel viewModel;
 
     private OnNextPageRequestListener onNextPageRequestListener;
 
@@ -70,7 +67,7 @@ public abstract class BaseQorgayPageFragment extends BaseActivityFragment<MainAc
         super.onViewCreated(view, savedInstanceState);
         onNextPageRequestListener = (OnNextPageRequestListener) getParentFragment();
 
-        viewModel = new ViewModelProvider(getActivity()).get(CreateQorgayViewModel.class);
+        viewModel = new ViewModelProvider(getActivity()).get(QorgayViewModel.class);
         viewModel.setQorgayApi(((QorgauApp) getActivity().getApplication()).qorgayApi);
 
         pageNumberTextView.setText(String.valueOf(pageNumber));
