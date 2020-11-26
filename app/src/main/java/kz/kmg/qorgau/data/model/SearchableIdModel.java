@@ -2,7 +2,7 @@ package kz.kmg.qorgau.data.model;
 
 import ir.mirrajabi.searchdialog.core.Searchable;
 
-public class SearchableIdModel implements Searchable {
+public class SearchableIdModel implements SearchableId {
 
     private String title;
     private int id;
@@ -17,6 +17,7 @@ public class SearchableIdModel implements Searchable {
         return title;
     }
 
+    @Override
     public int getId() {
         return id;
     }

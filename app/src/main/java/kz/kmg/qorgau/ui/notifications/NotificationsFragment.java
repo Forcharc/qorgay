@@ -152,13 +152,17 @@ public class NotificationsFragment extends BaseFragment {
             concatAdapter.addAdapter(newNotificationsAdapter);
         }
 
+
         List<NotificationModel> oldNotifications = data.stream()
                 .filter(NotificationModel::isIsRead)
                 .collect(Collectors.toList());
-        NotificationsAdapter oldNotificationsAdapter = new NotificationsAdapter(getString(R.string.seen));
-        oldNotificationsAdapter.submitList(oldNotifications);
 
-        concatAdapter.addAdapter(oldNotificationsAdapter);
+        int oldNotificationsCount = oldNotifications.size();
+        if (oldNotificationsCount != 0) {
+            NotificationsAdapter oldNotificationsAdapter = new NotificationsAdapter(getString(R.string.seen));
+            oldNotificationsAdapter.submitList(oldNotifications);
+            concatAdapter.addAdapter(oldNotificationsAdapter);
+        }
     }
 
     class NotificationsAdapter extends BaseAdapter<NotificationModel> {

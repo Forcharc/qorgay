@@ -2,7 +2,9 @@ package kz.kmg.qorgau.data.model.create;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OrganizationModel {
+import kz.kmg.qorgau.data.model.SearchableId;
+
+public class OrganizationModel implements SearchableId {
 
 	@SerializedName("ParentId")
 	private Object parentId;
@@ -114,5 +116,10 @@ public class OrganizationModel {
 
 	public int getId(){
 		return id;
+	}
+
+	@Override
+	public String getTitle() {
+		return name;
 	}
 }

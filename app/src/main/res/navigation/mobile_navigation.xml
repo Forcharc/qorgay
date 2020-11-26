@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_questionnaireListFragment"
             app:destination="@id/questionnaireListFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_workObservationFragment"
+            app:destination="@id/workObservationFragment" />
     </fragment>
 
     <fragment
@@ -50,4 +53,20 @@
         tools:layout="@layout/fragment_login"
         android:name="kz.kmg.qorgau.ui.profile.LoginFragment"
         android:label="@string/title_nav_profile" />
+
+    <fragment
+        android:id="@+id/workObservationFragment"
+        tools:layout="@layout/fragment_work_observation"
+        android:name="kz.kmg.qorgau.ui.observations.WorkObservationFragment"
+        android:label="@string/work_observations" >
+        <action
+            android:id="@+id/action_workObservationFragment_to_addObservationFragment"
+            app:destination="@id/addWorkObservationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addWorkObservationFragment"
+        tools:layout="@layout/fragment_work_observation"
+        android:name="kz.kmg.qorgau.ui.observations.add.EditWorkObservationFragment"
+        android:label="@string/fill_in_the_card" />
 </navigation>

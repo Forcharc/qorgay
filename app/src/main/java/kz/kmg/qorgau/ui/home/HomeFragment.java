@@ -3,10 +3,13 @@ package kz.kmg.qorgau.ui.home;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,16 +33,18 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
     @BindView(R.id.rv_news)
     RecyclerView rvNews;
 
+    @BindView(R.id.b_create)
+    ImageButton createQorgayButton;
+
+    @BindView(R.id.ib_work)
+    ImageButton workButton;
+
+    NavController navController;
+
     private PromoCardsAdapter promoCardsAdapter = new PromoCardsAdapter();
     private NewsAdapter newsAdapter = new NewsAdapter();
 
     public HomeFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -51,8 +56,20 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = NavHostFragment.findNavController(this);
+
+/*
         initPromoCards();
         initNews();
+*/
+
+        createQorgayButton.setOnClickListener(v -> {
+            navController.navigate(R.id.navigation_create);
+        });
+
+        workButton.setOnClickListener(v -> {
+            navController.navigate(R.id.action_navigation_home_to_workObservationFragment);
+        });
 
     }
 
@@ -88,6 +105,12 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
 
         rvPromoCards.setAdapter(promoCardsAdapter);
         rvPromoCards.setHasFixedSize(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        navController = null;
     }
 
     @Override

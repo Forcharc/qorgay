@@ -2,6 +2,11 @@ package kz.kmg.qorgau.ui.main;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -10,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import butterknife.BindView;
 import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.data.local.LocalStorage;
@@ -17,6 +23,12 @@ import kz.kmg.qorgau.ui.base.activity.BaseActivity;
 
 
 public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.tv_title)
+    TextView titleTextView;
+
+    @BindView(R.id.ll_menu_icons)
+    LinearLayout menuItemsLinearLayout;
 
     private static final String TAG = "MainActivity";
 
@@ -35,6 +47,11 @@ public class MainActivity extends BaseActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            titleTextView.setText(destination.getLabel());
+            menuItemsLinearLayout.removeAllViews();
+        });
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
@@ -48,6 +65,12 @@ public class MainActivity extends BaseActivity {
                     prefStorage.setNotificationToken(token);
                     Log.d(TAG, "Firebase Messaging token: " + token);
                 });
+    }
+
+    public void addIcon(View iconView) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        menuItemsLinearLayout.addView(iconView, params);
     }
 
 }

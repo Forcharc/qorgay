@@ -46,6 +46,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/b_create"
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,6 +97,7 @@
             tools:ignore="MissingConstraints">
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_work"
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

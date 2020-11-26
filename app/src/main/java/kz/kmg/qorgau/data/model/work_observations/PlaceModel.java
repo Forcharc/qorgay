@@ -1,43 +1,44 @@
-package kz.kmg.qorgau.data.model.create;
+package kz.kmg.qorgau.data.model.work_observations;
 
 import com.google.gson.annotations.SerializedName;
 
 import kz.kmg.qorgau.data.model.SearchableId;
-import kz.kmg.qorgau.data.model.SearchableIdModel;
 
-public class DepartmentModel implements SearchableId {
-	@SerializedName("OrganizationName")
-	private Object organizationName;
+public class PlaceModel implements SearchableId {
+
+	@SerializedName("UpdateDate")
 	private String updateDate;
+
 	@SerializedName("NameEn")
-	private Object nameEn;
+	private String nameEn;
+
 	@SerializedName("InsertDate")
 	private String insertDate;
+
 	@SerializedName("NameKz")
-	private Object nameKz;
+	private String nameKz;
+
+	@SerializedName("Latitude")
+	private int latitude;
+
 	@SerializedName("Id")
 	private int id;
+
 	@SerializedName("OrganizationId")
 	private int organizationId;
+
 	@SerializedName("NameRu")
 	private String nameRu;
 
-
-	/*
-	public DepartmentModel(int id, String title) {
-		super(id, title);
-	}
-*/
-
-	public Object getOrganizationName(){
-		return organizationName;
-	}
+	@SerializedName("Longtitude")
+	private int longtitude;
 
 	public String getUpdateDate(){
 		return updateDate;
 	}
 
-	public Object getNameEn(){
+
+	public String getNameEn(){
 		return nameEn;
 	}
 
@@ -45,8 +46,12 @@ public class DepartmentModel implements SearchableId {
 		return insertDate;
 	}
 
-	public Object getNameKz(){
+	public String getNameKz(){
 		return nameKz;
+	}
+
+	public int getLatitude(){
+		return latitude;
 	}
 
 	public int getId(){
@@ -61,8 +66,12 @@ public class DepartmentModel implements SearchableId {
 		return nameRu;
 	}
 
+	public int getLongtitude(){
+		return longtitude;
+	}
+
 	@Override
 	public String getTitle() {
-		return getNameRu();
+		return nameRu;
 	}
 }
