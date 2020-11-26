@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.ui.observations.add;
+package kz.kmg.qorgau.ui.observations.driving;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -39,18 +39,19 @@ import kz.kmg.qorgau.data.local.LocalStorage;
 import kz.kmg.qorgau.data.model.SearchableId;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
-import kz.kmg.qorgau.data.model.work_observations.AnswerCategoriesItem;
-import kz.kmg.qorgau.data.model.work_observations.ChildrenItem;
-import kz.kmg.qorgau.data.model.work_observations.PlaceItemModel;
-import kz.kmg.qorgau.data.model.work_observations.PlaceModel;
-import kz.kmg.qorgau.data.model.work_observations.WorkObservationFormModel;
+import kz.kmg.qorgau.data.model.observations.AnswerCategoriesItem;
+import kz.kmg.qorgau.data.model.observations.ChildrenItem;
+import kz.kmg.qorgau.data.model.observations.work.PlaceItemModel;
+import kz.kmg.qorgau.data.model.observations.work.PlaceModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationFormModel;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.dialogs.QorgayCreatedDialog;
-import kz.kmg.qorgau.ui.observations.WorkObservationViewModel;
+import kz.kmg.qorgau.ui.observations.ObservationCommentsAdapter;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationViewModel;
 
-public class EditWorkObservationFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class EditDrivingObservationFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public static final String PARAM_WORK_ID = "param_work_id";
 
@@ -124,7 +125,7 @@ public class EditWorkObservationFragment extends BaseFragment implements DatePic
 
     @Override
     public int getContentView() {
-        return R.layout.fragment_edit_work_observation;
+        return R.layout.fragment_edit_driving_observation;
     }
 
     @Override
@@ -325,7 +326,7 @@ public class EditWorkObservationFragment extends BaseFragment implements DatePic
                     if (isSuccess) {
                         QorgayCreatedDialog dialog = new QorgayCreatedDialog();
 
-                        dialog.listener = () -> NavHostFragment.findNavController(EditWorkObservationFragment.this).popBackStack();
+                        dialog.listener = () -> NavHostFragment.findNavController(EditDrivingObservationFragment.this).popBackStack();
                         dialog.show(getChildFragmentManager(), null);
                     } else {
                         onToast(getString(R.string.fill_empty_fields));

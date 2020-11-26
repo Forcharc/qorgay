@@ -1,9 +1,7 @@
-package kz.kmg.qorgau.ui.observations.list;
+package kz.kmg.qorgau.ui.observations;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,28 +9,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.paging.CombinedLoadStates;
 import androidx.paging.PagingData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.BindView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
+import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
+import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
+import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.dialogs.NeedsAuthorizationDialog;
-import kz.kmg.qorgau.ui.observations.WorkObservationViewModel;
+import kz.kmg.qorgau.ui.observations.ObservationListAdapter;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationViewModel;
 import kz.kmg.qorgau.utils.rv.QorgayLoadStateAdapter;
 import kz.kmg.qorgau.utils.rv.RecyclerTouchListener;
 
-import static kz.kmg.qorgau.ui.observations.add.EditWorkObservationFragment.PARAM_WORK_ID;
+import static kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment.PARAM_WORK_ID;
 
-public class ObservationListFragment extends BaseFragment implements QorgayLoadStateAdapter.LoadStateListener, NeedsAuthorizationDialog.NeedsAuthorizationDialogListener, ObservationListAdapter.ObservationListListener {
+public abstract class BaseObservationListFragment extends BaseFragment implements QorgayLoadStateAdapter.LoadStateListener, NeedsAuthorizationDialog.NeedsAuthorizationDialogListener, ObservationListAdapter.ObservationListListener {
 
     private static final String TAG = "ObservationListFragment";
     private NavController navController;
@@ -40,21 +40,18 @@ public class ObservationListFragment extends BaseFragment implements QorgayLoadS
     @BindView(R.id.rv)
     public RecyclerView recyclerView;
 
-    WorkObservationViewModel viewModel;
 
-    private WorkObservationsApi observationsApi;
-    private QorgayApi qorgayApi;
 
-    String cookie;
+    protected String cookie;
 
-    private final ObservationListAdapter adapter = new ObservationListAdapter(new DiffUtil.ItemCallback<WorkObservationModel>() {
+    protected final ObservationListAdapter adapter = new ObservationListAdapter(new DiffUtil.ItemCallback<BaseObservationModel>() {
         @Override
-        public boolean areItemsTheSame(@NonNull WorkObservationModel oldItem, @NonNull WorkObservationModel newItem) {
+        public boolean areItemsTheSame(@NonNull BaseObservationModel oldItem, @NonNull BaseObservationModel newItem) {
             return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull WorkObservationModel oldItem, @NonNull WorkObservationModel newItem) {
+        public boolean areContentsTheSame(@NonNull BaseObservationModel oldItem, @NonNull BaseObservationModel newItem) {
             return oldItem.getDate().equals(newItem.getDate()) && oldItem.getOrgName().equals(newItem.getOrgName()) && oldItem.getId().equals(newItem.getId());
         }
     },
@@ -68,12 +65,9 @@ public class ObservationListFragment extends BaseFragment implements QorgayLoadS
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(WorkObservationViewModel.class);
         navController = NavHostFragment.findNavController(this);
-        observationsApi = ((QorgauApp) getActivity().getApplication()).workObservationsApi;
-        qorgayApi = ((QorgauApp) getActivity().getApplication()).qorgayApi;
         cookie = ((QorgauApp) getActivity().getApplication()).prefStorage.getCookie();
-        viewModel.init(qorgayApi, observationsApi);
+        initViewModel();
 
         if (cookie == null || cookie.length() == 0) {
             NeedsAuthorizationDialog noAuthDialog = new NeedsAuthorizationDialog();
@@ -91,7 +85,7 @@ public class ObservationListFragment extends BaseFragment implements QorgayLoadS
                     .setSwipeable(R.id.cl_foreground, R.id.cl_background, (viewID, position) -> {});
             recyclerView.addOnItemTouchListener(touchListener);
 
-            viewModel.removeWorkByIdResultLiveData().observe(getViewLifecycleOwner(), resource -> {
+            getObservationByIdResultLiveData().observe(getViewLifecycleOwner(), resource -> {
                 switch (resource.status) {
                     case ERROR:
                         onToast(resource.apiError.getMessage());
@@ -106,14 +100,11 @@ public class ObservationListFragment extends BaseFragment implements QorgayLoadS
         }
     }
 
-    void getPagingData() {
-        LiveData<PagingData<WorkObservationModel>> pagingData = viewModel.getObservations(observationsApi, cookie);
-        pagingData.removeObservers(getViewLifecycleOwner());
-        pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> {
-            adapter.submitData(getViewLifecycleOwner().getLifecycle(), workObservationModelPagingData);
-        });
-    }
+    public abstract void getPagingData();
 
+    public abstract void initViewModel();
+
+    public abstract LiveData<Resource<IsSuccessResponse>> getObservationByIdResultLiveData();
 
     @Override
     public void onRetry() {
@@ -130,15 +121,5 @@ public class ObservationListFragment extends BaseFragment implements QorgayLoadS
         navController.navigate(R.id.navigation_profile);
     }
 
-    @Override
-    public void navigateToWorkId(int workId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(PARAM_WORK_ID, workId);
-        navController.navigate(R.id.addWorkObservationFragment, bundle);
-    }
 
-    @Override
-    public void deleteWorkById(Integer workId, int position) {
-        viewModel.removeWorkById(cookie, workId);
-    }
 }

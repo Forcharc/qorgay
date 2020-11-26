@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.ui.observations.list;
+package kz.kmg.qorgau.ui.observations;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +25,15 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
+import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
 
-public class ObservationListAdapter extends PagingDataAdapter<WorkObservationModel, ObservationListAdapter.ObservationViewHolder> {
+public class ObservationListAdapter extends PagingDataAdapter<BaseObservationModel, ObservationListAdapter.ObservationViewHolder> {
 
     DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     ObservationListListener listener;
 
-    public ObservationListAdapter(@NotNull DiffUtil.ItemCallback<WorkObservationModel> diffCallback, ObservationListListener listener) {
+    public ObservationListAdapter(@NotNull DiffUtil.ItemCallback<BaseObservationModel> diffCallback, ObservationListListener listener) {
         super(diffCallback);
         this.listener = listener;
     }
@@ -47,14 +48,14 @@ public class ObservationListAdapter extends PagingDataAdapter<WorkObservationMod
 
     @Override
     public void onBindViewHolder(@NonNull ObservationViewHolder holder, int position) {
-        WorkObservationModel currentItem = getItem(position);
+        BaseObservationModel currentItem = getItem(position);
 
         if (currentItem != null) {
             holder.bind(currentItem);
         }
     }
 
-    class ObservationViewHolder extends RecyclerView.ViewHolder {
+    public class ObservationViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_obs_id)
         public TextView obsIdTextView;
@@ -79,11 +80,11 @@ public class ObservationListAdapter extends PagingDataAdapter<WorkObservationMod
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(WorkObservationModel currentItem) {
+        public void bind(BaseObservationModel currentItem) {
             String date = dateFormat.format(new Date(currentItem.getDate()));
 
             foregroundLayout.setOnClickListener(v -> {
-                listener.navigateToWorkId(currentItem.getId());
+                listener.navigateToObservationId(currentItem.getId());
             });
             dateTextView.setText(date);
 
@@ -92,11 +93,11 @@ public class ObservationListAdapter extends PagingDataAdapter<WorkObservationMod
             obsIdTextView.setText(currentItem.getId().toString());
 
             editImageView.setOnClickListener(v -> {
-                listener.navigateToWorkId(currentItem.getId());
+                listener.navigateToObservationId(currentItem.getId());
             });
 
             deleteImageView.setOnClickListener(v -> {
-                listener.deleteWorkById(currentItem.getId(), getBindingAdapterPosition());
+                listener.deleteObservationById(currentItem.getId(), getBindingAdapterPosition());
             });
         }
     }
@@ -119,10 +120,10 @@ public class ObservationListAdapter extends PagingDataAdapter<WorkObservationMod
         return new ConcatAdapter(header, this, footer);
     }
 
-    interface ObservationListListener {
-        void navigateToWorkId(int workId);
+    public interface ObservationListListener {
+        void navigateToObservationId(int workId);
 
-        void deleteWorkById(Integer workId, int position);
+        void deleteObservationById(Integer workId, int position);
     }
 
 }

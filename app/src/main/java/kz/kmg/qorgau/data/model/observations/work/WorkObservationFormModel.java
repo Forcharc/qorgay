@@ -1,8 +1,10 @@
-package kz.kmg.qorgau.data.model.work_observations;
+package kz.kmg.qorgau.data.model.observations.work;
 
 import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import kz.kmg.qorgau.data.model.observations.AnswerCategoriesItem;
 
 public class WorkObservationFormModel implements Serializable {
 

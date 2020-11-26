@@ -20,10 +20,8 @@ import butterknife.BindView;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.main.MainActivity;
-import kz.kmg.qorgau.ui.observations.list.ObservationListFragment;
-import kz.kmg.qorgau.ui.observations.list.ObservationReportsFragment;
 
-public class WorkObservationFragment extends BaseFragment {
+public abstract class BaseObservationFragment extends BaseFragment {
 
     @BindView(R.id.tab_layout)
     public TabLayout tabLayout;
@@ -35,7 +33,7 @@ public class WorkObservationFragment extends BaseFragment {
 
     @Override
     public int getContentView() {
-        return R.layout.fragment_work_observation;
+        return R.layout.fragment_observation;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class WorkObservationFragment extends BaseFragment {
         addMenuButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_add, null));
         ((MainActivity) requireActivity()).addIcon(addMenuButton);
 
-        viewPager.setAdapter(new PagerAdapter(this));
+        viewPager.setAdapter(getPagerAdapter(this));
         viewPager.setUserInputEnabled(false);
 
         new TabLayoutMediator(tabLayout, viewPager,
@@ -67,6 +65,8 @@ public class WorkObservationFragment extends BaseFragment {
         ).attach();
     }
 
+    public abstract FragmentStateAdapter getPagerAdapter(Fragment fragment);
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -75,25 +75,4 @@ public class WorkObservationFragment extends BaseFragment {
         viewPager = null;
     }
 
-    class PagerAdapter extends FragmentStateAdapter {
-        public PagerAdapter(@NonNull Fragment fragment) {
-            super(fragment);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            switch (position) {
-                case 1:
-                    return new ObservationReportsFragment();
-                default:
-                    return new ObservationListFragment();
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return 2;
-        }
-    }
 }

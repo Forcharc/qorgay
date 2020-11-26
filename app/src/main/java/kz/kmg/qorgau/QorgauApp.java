@@ -6,6 +6,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
 import kz.kmg.qorgau.data.local.LocalStorage;
 import kz.kmg.qorgau.data.local.SharedPrefStorage;
+import kz.kmg.qorgau.data.network.api.DrivingObservationsApi;
 import kz.kmg.qorgau.data.network.api.NotificationsApi;
 import kz.kmg.qorgau.data.network.api.ProfileApi;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
@@ -24,6 +25,7 @@ public class QorgauApp extends DaggerApplication {
     public ProfileApi profileApi;
     public NotificationsApi notificationsApi;
     public WorkObservationsApi workObservationsApi;
+    public DrivingObservationsApi drivingObservationsApi;
 
     @Override
     public void onCreate() {
@@ -32,6 +34,7 @@ public class QorgauApp extends DaggerApplication {
         profileApi = retrofit.create(ProfileApi.class);
         notificationsApi = retrofit.create(NotificationsApi.class);
         workObservationsApi = retrofit.create(WorkObservationsApi.class);
+        drivingObservationsApi = retrofit.create(DrivingObservationsApi.class);
         prefStorage = new SharedPrefStorage(this);
     }
 

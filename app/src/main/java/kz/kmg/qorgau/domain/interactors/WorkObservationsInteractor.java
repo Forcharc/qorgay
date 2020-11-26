@@ -13,13 +13,13 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
-import kz.kmg.qorgau.data.model.work_observations.PlaceItemModel;
-import kz.kmg.qorgau.data.model.work_observations.PlaceModel;
-import kz.kmg.qorgau.data.model.work_observations.WorkObservationFormModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.PlaceItemModel;
+import kz.kmg.qorgau.data.model.observations.work.PlaceModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationFormModel;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.data.network.base.Resource;
-import kz.kmg.qorgau.ui.observations.base.WorkObservationsPagingSource;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationsPagingSource;
 import kz.kmg.qorgau.utils.error_handling.ErrorHelper;
 
 public class WorkObservationsInteractor {

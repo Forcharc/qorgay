@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.ui.observations;
+package kz.kmg.qorgau.ui.observations.work;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
@@ -11,10 +11,10 @@ import java.util.List;
 import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
-import kz.kmg.qorgau.data.model.work_observations.PlaceItemModel;
-import kz.kmg.qorgau.data.model.work_observations.PlaceModel;
-import kz.kmg.qorgau.data.model.work_observations.WorkObservationFormModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.PlaceItemModel;
+import kz.kmg.qorgau.data.model.observations.work.PlaceModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationFormModel;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.data.network.base.Resource;

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
 
 public class PagingModel<T>{
 
@@ -21,7 +21,7 @@ public class PagingModel<T>{
 	private int rowMin;
 
 	@SerializedName("List")
-	private List<WorkObservationModel> list;
+	private List<T> list;
 
 	@SerializedName("RowMax")
 	private int rowMax;
@@ -42,7 +42,7 @@ public class PagingModel<T>{
 		return rowMin;
 	}
 
-	public List<WorkObservationModel> getList(){
+	public List<T> getList(){
 		return list;
 	}
 

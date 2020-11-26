@@ -1,8 +1,6 @@
-package kz.kmg.qorgau.ui.observations.add;
+package kz.kmg.qorgau.ui.observations;
 
 import android.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.work_observations.AnswerCategoriesItem;
-import kz.kmg.qorgau.data.model.work_observations.ChildrenItem;
+import kz.kmg.qorgau.data.model.observations.AnswerCategoriesItem;
+import kz.kmg.qorgau.data.model.observations.ChildrenItem;
 import kz.kmg.qorgau.ui.base.adapter.BaseAdapter;
 import kz.kmg.qorgau.ui.base.adapter.BaseViewHolder;
 

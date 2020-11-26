@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_workObservationFragment"
             app:destination="@id/workObservationFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_drivingObservationFragment"
+            app:destination="@id/drivingObservationFragment" />
     </fragment>
 
     <fragment
@@ -56,8 +59,8 @@
 
     <fragment
         android:id="@+id/workObservationFragment"
-        tools:layout="@layout/fragment_work_observation"
-        android:name="kz.kmg.qorgau.ui.observations.WorkObservationFragment"
+        tools:layout="@layout/fragment_observation"
+        android:name="kz.kmg.qorgau.ui.observations.work.WorkObservationFragment"
         android:label="@string/work_observations" >
         <action
             android:id="@+id/action_workObservationFragment_to_addObservationFragment"
@@ -66,7 +69,18 @@
 
     <fragment
         android:id="@+id/addWorkObservationFragment"
-        tools:layout="@layout/fragment_work_observation"
-        android:name="kz.kmg.qorgau.ui.observations.add.EditWorkObservationFragment"
+        tools:layout="@layout/fragment_observation"
+        android:name="kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment"
         android:label="@string/fill_in_the_card" />
+
+    <fragment
+        android:id="@+id/drivingObservationFragment"
+        tools:layout="@layout/fragment_observation"
+        android:name="kz.kmg.qorgau.ui.observations.driving.DrivingObservationFragment"
+        android:label="DrivingObservationFragment" />
+    <fragment
+        android:id="@+id/editDrivingObservationFragment"
+        tools:layout="@layout/fragment_edit_driving_observation"
+        android:name="kz.kmg.qorgau.ui.observations.driving.EditDrivingObservationFragment"
+        android:label="EditDrivingObservationFragment" />
 </navigation>

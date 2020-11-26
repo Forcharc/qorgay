@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.ui.observations.base;
+package kz.kmg.qorgau.ui.observations.work;
 
 import androidx.annotation.NonNull;
 import androidx.paging.rxjava2.RxPagingSource;
@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import kz.kmg.qorgau.data.model.observations.WorkObservationModel;
+import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
 import kz.kmg.qorgau.data.model.paging.PagingModel;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 

@@ -23,11 +23,17 @@ import kz.kmg.qorgau.ui.create.pages.QorgayPage9Fragment;
 import kz.kmg.qorgau.ui.home.HomeFragment;
 import kz.kmg.qorgau.ui.list.ListFragment;
 import kz.kmg.qorgau.ui.notifications.NotificationsFragment;
-import kz.kmg.qorgau.ui.observations.add.EditWorkObservationFragment;
-import kz.kmg.qorgau.ui.observations.list.ObservationReportsFragment;
+import kz.kmg.qorgau.ui.observations.driving.DrivingObservationFragment;
+import kz.kmg.qorgau.ui.observations.driving.DrivingObservationListFragment;
+import kz.kmg.qorgau.ui.observations.driving.DrivingObservationReportsFragment;
+import kz.kmg.qorgau.ui.observations.driving.EditDrivingObservationFragment;
+import kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationFragment;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationListFragment;
+import kz.kmg.qorgau.ui.observations.work.WorkObservationReportsFragment;
 import kz.kmg.qorgau.ui.profile.LoginFragment;
 import kz.kmg.qorgau.ui.profile.ProfileFragment;
-import kz.kmg.qorgau.ui.observations.list.ObservationListFragment;
+import kz.kmg.qorgau.ui.observations.BaseObservationListFragment;
 
 
 @Module
@@ -103,15 +109,29 @@ public abstract class MainFragmentsBuildersModule {
     abstract LoginFragment loginFragment();
 
     @ContributesAndroidInjector
-    abstract kz.kmg.qorgau.ui.observations.WorkObservationFragment workObservationFragment();
+    abstract WorkObservationFragment workObservationFragment();
 
     @ContributesAndroidInjector
-    abstract ObservationListFragment workListFragment();
+    abstract BaseObservationListFragment workListFragment();
 
     @ContributesAndroidInjector
     abstract EditWorkObservationFragment addObservationFragment();
 
     @ContributesAndroidInjector
-    abstract ObservationReportsFragment observationReportsFragment();
+    abstract WorkObservationReportsFragment observationReportsFragment();
 
+    @ContributesAndroidInjector
+    abstract WorkObservationListFragment workObservationListFragment();
+
+    @ContributesAndroidInjector
+    abstract DrivingObservationFragment drivingObservationFragment();
+
+    @ContributesAndroidInjector
+    abstract DrivingObservationListFragment drivingObservationListFragment();
+
+    @ContributesAndroidInjector
+    abstract DrivingObservationReportsFragment drivingObservationReportsFragment();
+
+    @ContributesAndroidInjector
+    abstract EditDrivingObservationFragment editDrivingObservationFragment();
 }

@@ -39,6 +39,9 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
     @BindView(R.id.ib_work)
     ImageButton workButton;
 
+    @BindView(R.id.ib_driving)
+    ImageButton drivingButton;
+
     NavController navController;
 
     private PromoCardsAdapter promoCardsAdapter = new PromoCardsAdapter();
@@ -71,6 +74,9 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
             navController.navigate(R.id.action_navigation_home_to_workObservationFragment);
         });
 
+        drivingButton.setOnClickListener(v -> {
+            navController.navigate(R.id.action_navigation_home_to_drivingObservationFragment);
+        });
     }
 
     private void initNews() {

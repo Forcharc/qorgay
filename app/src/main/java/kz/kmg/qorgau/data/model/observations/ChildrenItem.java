@@ -1,4 +1,4 @@
-package kz.kmg.qorgau.data.model.work_observations;
+package kz.kmg.qorgau.data.model.observations;
 
 import com.google.gson.annotations.SerializedName;
 

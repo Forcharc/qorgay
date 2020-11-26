@@ -1,8 +1,10 @@
-package kz.kmg.qorgau.data.model.observations;
+package kz.kmg.qorgau.data.model.observations.driving;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DrivingBaseObservationModelModel implements BaseObservationModel {
+import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
+
+public class DrivingObservationModel implements BaseObservationModel {
 
 	@SerializedName("OrganizationName")
 	private String organizationName;
