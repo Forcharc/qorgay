@@ -29,7 +29,7 @@ public abstract class BaseObservationFragment extends BaseFragment {
     @BindView(R.id.pager)
     ViewPager2 viewPager;
 
-    private NavController navController;
+    public NavController navController;
 
     @Override
     public int getContentView() {
@@ -43,7 +43,7 @@ public abstract class BaseObservationFragment extends BaseFragment {
 
         ImageView addMenuButton = new ImageView(requireContext());
         addMenuButton.setOnClickListener(v -> {
-            navController.navigate(R.id.addWorkObservationFragment);
+            navigateToAddNewObservation();
         });
         addMenuButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_add, null));
         ((MainActivity) requireActivity()).addIcon(addMenuButton);
@@ -66,6 +66,8 @@ public abstract class BaseObservationFragment extends BaseFragment {
     }
 
     public abstract FragmentStateAdapter getPagerAdapter(Fragment fragment);
+
+    public abstract void navigateToAddNewObservation();
 
     @Override
     public void onDestroyView() {

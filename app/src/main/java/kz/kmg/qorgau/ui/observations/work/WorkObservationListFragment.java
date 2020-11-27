@@ -20,7 +20,7 @@ import kz.kmg.qorgau.ui.observations.BaseObservationListFragment;
 import static kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment.PARAM_WORK_ID;
 
 
-public class WorkObservationListFragment extends BaseObservationListFragment {
+public class WorkObservationListFragment extends BaseObservationListFragment<WorkObservationModel> {
 
     WorkObservationViewModel viewModel;
     private WorkObservationsApi observationsApi;
@@ -50,7 +50,7 @@ public class WorkObservationListFragment extends BaseObservationListFragment {
         LiveData<PagingData<WorkObservationModel>> pagingData = viewModel.getObservations(observationsApi, cookie);
         pagingData.removeObservers(getViewLifecycleOwner());
         pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> {
-            adapter.submitData(getViewLifecycleOwner().getLifecycle(), (PagingData<BaseObservationModel>)(PagingData)workObservationModelPagingData);
+            adapter.submitData(getViewLifecycleOwner().getLifecycle(), workObservationModelPagingData);
         });
     }
 

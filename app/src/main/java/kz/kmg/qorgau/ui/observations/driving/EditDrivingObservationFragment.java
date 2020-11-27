@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +17,8 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.ConcatAdapter;
@@ -41,23 +44,24 @@ import kz.kmg.qorgau.data.model.create.DepartmentModel;
 import kz.kmg.qorgau.data.model.create.OrganizationModel;
 import kz.kmg.qorgau.data.model.observations.AnswerCategoriesItem;
 import kz.kmg.qorgau.data.model.observations.ChildrenItem;
+import kz.kmg.qorgau.data.model.observations.driving.DrivingObservationFormModel;
 import kz.kmg.qorgau.data.model.observations.work.PlaceItemModel;
 import kz.kmg.qorgau.data.model.observations.work.PlaceModel;
-import kz.kmg.qorgau.data.model.observations.work.WorkObservationFormModel;
+import kz.kmg.qorgau.data.network.api.DrivingObservationsApi;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
-import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.dialogs.QorgayCreatedDialog;
 import kz.kmg.qorgau.ui.observations.ObservationCommentsAdapter;
-import kz.kmg.qorgau.ui.observations.work.WorkObservationViewModel;
 
-public class EditDrivingObservationFragment extends BaseFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class EditDrivingObservationFragment extends BaseFragment  {
 
-    public static final String PARAM_WORK_ID = "param_work_id";
+    public static final String PARAM_DRIVING_ID = "param_driving_id";
 
-    private WorkObservationViewModel viewModel;
+    private static final String TAG = "EditDrivingObservationF";
 
-    @BindView(R.id.sv_work)
+    private DrivingObservationViewModel viewModel;
+
+    @BindView(R.id.sv_driving)
     ScrollView workScrollView;
 
     @BindView(R.id.progress)
@@ -75,48 +79,53 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
     @BindView(R.id.tv_division)
     TextView divisionTextView;
 
-    @BindView(R.id.tv_date)
-    TextView dateTextView;
-
-    @BindView(R.id.tv_time)
-    TextView timeTextView;
-
-    @BindView(R.id.et_observables_count)
-    EditText observablesCountEditText;
-
-    @BindView(R.id.et_task)
-    EditText taskEditText;
-
     @BindView(R.id.tv_obs_company)
     TextView obsCompanyTextView;
 
     @BindView(R.id.tv_obs_company_division)
     TextView obsCompanyDivisionTextView;
 
-    @BindView(R.id.tv_observation_place)
-    TextView obsPlaceTextView;
+    @BindView(R.id.et_exp_years)
+    EditText experienceEditText;
 
-    @BindView(R.id.tv_observation_place_specific)
-    TextView obsPlaceItemTextView;
+    @BindView(R.id.et_exp_years_driver)
+    EditText experienceDriverEditText;
+
+    @BindView(R.id.tv_date_start)
+    TextView startDateTextView;
+
+    @BindView(R.id.tv_date_end)
+    TextView endDateTextView;
+
+    @BindView(R.id.tv_time_start)
+    TextView startTimeTextView;
+
+    @BindView(R.id.tv_time_end)
+    TextView endTimeTextView;
 
     @BindView(R.id.rv)
     RecyclerView recycler;
+
+    @BindView(R.id.et_area)
+    EditText areaEditText;
 
     @BindView(R.id.b_save)
     CircularProgressButton saveButton;
 
     String cookie;
 
-    WorkObservationFormModel work;
+    DrivingObservationFormModel driving;
 
     Calendar nowCalendar = Calendar.getInstance();
     DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    String dateString;
-    String timeString;
+    String startDateString;
+    String startTimeString;
+    String endDateString;
+    String endTimeString;
 
     private final View.OnClickListener onRetryLoadForm = v -> {
-        loadWork();
+        loadDriving();
     };
 
     private final View.OnClickListener onRetryLoadOrganizations = v -> {
@@ -131,34 +140,34 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(WorkObservationViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DrivingObservationViewModel.class);
         QorgauApp app = (QorgauApp) getActivity().getApplication();
         LocalStorage localStorage = app.prefStorage;
         cookie = localStorage.getCookie();
         QorgayApi qorgayApi = app.qorgayApi;
-        WorkObservationsApi workApi = app.workObservationsApi;
-        viewModel.init(qorgayApi, workApi);
+        DrivingObservationsApi drivingApi = app.drivingObservationsApi;
+        viewModel.init(qorgayApi, drivingApi);
 
         initObservers();
         initListeners();
 
-        loadWork();
+        loadDriving();
     }
 
-    private void loadWork() {
-        int workId = -1;
+    private void loadDriving() {
+        int drivingId = -1;
         if (getArguments() != null) {
-            workId = getArguments().getInt(PARAM_WORK_ID, -1);
+            drivingId = getArguments().getInt(PARAM_DRIVING_ID, -1);
         }
-        if (workId == -1) {
+        if (drivingId == -1) {
             viewModel.loadForm(cookie);
         } else {
-            viewModel.loadWorkById(cookie, workId);
+            viewModel.loadDrivingById(cookie, drivingId);
         }
     }
 
     private void initObservers() {
-        viewModel.getWorkLiveData().observe(getViewLifecycleOwner(), workObservationFormModelResource -> {
+        viewModel.getDrivingLiveData().observe(getViewLifecycleOwner(), workObservationFormModelResource -> {
             switch (workObservationFormModelResource.status) {
                 case ERROR:
                     workScrollView.setVisibility(View.GONE);
@@ -166,7 +175,7 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
                     onToast(workObservationFormModelResource.apiError.getMessage());
                     break;
                 case SUCCESS:
-                    work = workObservationFormModelResource.data;
+                    driving = workObservationFormModelResource.data;
                     parseCommentsAndCategories();
                     viewModel.loadOrganizations();
                     break;
@@ -187,8 +196,8 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
                 case SUCCESS:
                     workScrollView.setVisibility(View.VISIBLE);
                     hideStatusViews();
-                    initDateTime(work.getDateObservation());
-                    showForm(work, resource.data);
+                    initDateTime(driving.getStartDate(), driving.getEndDate());
+                    showForm(driving, resource.data);
                     break;
                 case LOADING:
                     workScrollView.setVisibility(View.GONE);
@@ -205,15 +214,15 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
                     break;
                 case SUCCESS:
                     hideStatusViews();
-                    if (work.getAuthorOrganizationDepartmentId() == null) {
+                    if (driving.getAuthorOrganizationDepartmentId() == null) {
                         showChooser(getString(R.string.department), resource.data, (dialog, item, position) -> {
-                            work.setAuthorOrganizationDepartmentId(item.getId());
-                            work.setAuthorOrganizationDepartmentName(item.getTitle());
+                            driving.setAuthorOrganizationDepartmentId(item.getId());
+                            driving.setAuthorOrganizationDepartmentName(item.getTitle());
                             divisionTextView.setText(item.getTitle());
                             dialog.dismiss();
                         });
                     } else {
-                        DepartmentModel dep = findDepartment(resource.data, work.getAuthorOrganizationDepartmentId());
+                        DepartmentModel dep = findDepartment(resource.data, driving.getAuthorOrganizationDepartmentId());
                         setTextIfNotNull(divisionTextView, dep.getNameRu());
                     }
                     break;
@@ -231,10 +240,10 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
                     break;
                 case SUCCESS:
                     hideStatusViews();
-                    if (work.getOrganizationDepartmentId() == null) {
+                    if (driving.getOrganizationDepartmentId() == null) {
                         if (resource.data != null && resource.data.size() > 0) {
                             showChooser(getString(R.string.department), resource.data, (dialog, item, position) -> {
-                                work.setOrganizationDepartmentId(item.getId());
+                                driving.setOrganizationDepartmentId(item.getId());
                                 obsCompanyDivisionTextView.setText(item.getTitle());
                                 dialog.dismiss();
                             });
@@ -242,7 +251,7 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
                             onToast(getString(R.string.no_departments));
                         }
                     } else {
-                        DepartmentModel dep = findDepartment(resource.data, work.getOrganizationDepartmentId());
+                        DepartmentModel dep = findDepartment(resource.data, driving.getOrganizationDepartmentId());
                         setTextIfNotNull(obsCompanyDivisionTextView, dep.getNameRu());
                     }
                     break;
@@ -252,67 +261,7 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
             }
         });
 
-        viewModel.getPlacesByOrgIdLiveData().observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status) {
-                case ERROR:
-                    hideStatusViews();
-                    onToast(resource.apiError.getMessage());
-                    break;
-                case SUCCESS:
-                    hideStatusViews();
-                    if (work.getPlaceId() == null) {
-                        if (resource.data != null && resource.data.size() > 0) {
-                            showChooser(getString(R.string.observation_place), resource.data, (dialog, item, position) -> {
-                                work.setPlaceId(item.getId());
-                                obsPlaceTextView.setText(item.getTitle());
-                                dialog.dismiss();
-                            });
-                        } else {
-                            onToast(getString(R.string.no_places));
-                        }
-                    } else {
-                        PlaceModel place = findPlace(resource.data, work.getPlaceId());
-                        setTextIfNotNull(obsPlaceTextView, place.getNameRu());
-                    }
-                    break;
-                case LOADING:
-                    showProgress();
-                    break;
-            }
-        });
-
-        viewModel.getPlaceItemsByPlaceIdLiveData().observe(getViewLifecycleOwner(), resource -> {
-            switch (resource.status) {
-                case ERROR:
-                    hideStatusViews();
-                    onToast(resource.apiError.getMessage());
-                    break;
-                case SUCCESS:
-                    hideStatusViews();
-                    if (work.getPlaceItemId() == null) {
-                        if (resource.data != null && resource.data.size() > 0) {
-                            showChooser(getString(R.string.observation_place_specific), resource.data, (dialog, item, position) -> {
-                                work.setPlaceItemId(item.getId());
-                                obsPlaceItemTextView.setText(item.getTitle());
-                                dialog.dismiss();
-                            });
-                        } else {
-                            onToast(getString(R.string.no_place_items));
-                        }
-                    } else {
-                        PlaceItemModel place = findPlaceItem(resource.data, work.getPlaceItemId());
-                        if (place != null) {
-                            setTextIfNotNull(obsPlaceItemTextView, place.getNameRu());
-                        }
-                    }
-                    break;
-                case LOADING:
-                    showProgress();
-                    break;
-            }
-        });
-
-        viewModel.getSaveWorkResultLiveData().observe(getViewLifecycleOwner(), isSuccessResponseResource -> {
+        viewModel.getSaveDrivingResultLiveData().observe(getViewLifecycleOwner(), isSuccessResponseResource -> {
             switch (isSuccessResponseResource.status) {
                 case ERROR:
                     saveButton.setEnabled(true);
@@ -341,30 +290,50 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
     }
 
 
-    private void initDateTime(String dateObservation) {
-        if (dateObservation != null) {
-            String[] dateTime = dateObservation.split(" ");
-            dateString = dateTime[0];
-            timeString = dateTime[1];
+    private void initDateTime(String startDate, String endDate) {
+        if (startDate != null) {
+            String[] dateTime = startDate.split(" ");
+            startDateString = dateTime[0];
+            startTimeString = dateTime[1];
+        }
+
+        if (endDate != null) {
+            String[] dateTime = endDate.split(" ");
+            endDateString = dateTime[0];
+            endTimeString = dateTime[1];
         }
     }
 
-    void showForm(WorkObservationFormModel data, List<OrganizationModel> organizationModels) {
+    void showForm(DrivingObservationFormModel data, List<OrganizationModel> organizationModels) {
         setTextIfNotNull(nameTextView, data.getAuthorFullname());
         setTextIfNotNull(companyTextView, data.getAuthorOrganizationName());
         setTextIfNotNull(divisionTextView, data.getAuthorOrganizationDepartmentName());
-        String date = data.getDateObservation();
-        if (date != null) {
-            String[] dateTime = date.split(" ");
+
+        String startDate = data.getStartDate();
+        if (startDate != null) {
+            String[] dateTime = startDate.split(" ");
             if (dateTime.length == 2) {
-                setTextIfNotNull(dateTextView, dateTime[0]);
-                setTextIfNotNull(timeTextView, dateTime[1]);
+                setTextIfNotNull(startDateTextView, dateTime[0]);
+                setTextIfNotNull(startTimeTextView, dateTime[1]);
             }
         }
-        if (data.getPeopleCount() != null)
-            setTextIfNotNull(observablesCountEditText, String.valueOf(data.getPeopleCount()));
 
-        setTextIfNotNull(taskEditText, data.getTask());
+        String endDate = data.getEndDate();
+        if (endDate != null) {
+            String[] dateTime = endDate.split(" ");
+            if (dateTime.length == 2) {
+                setTextIfNotNull(endDateTextView, dateTime[0]);
+                setTextIfNotNull(endTimeTextView, dateTime[1]);
+            }
+        }
+
+        if (data.getAuthorDrivingExperience() != null)
+            setTextIfNotNull(experienceEditText, String.valueOf(data.getAuthorDrivingExperience()));
+
+        if (data.getDrivingExperience() != null)
+            setTextIfNotNull(experienceDriverEditText, String.valueOf(data.getDrivingExperience()));
+
+        setTextIfNotNull(areaEditText, data.getLocation());
 
         if (data.getOrganizationId() != null) {
             OrganizationModel organization = findOrganization(organizationModels, data.getOrganizationId());
@@ -375,14 +344,6 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
 
         if (data.getOrganizationDepartmentId() != null) {
             viewModel.loadDepartmentsByOrgId(data.getOrganizationId(), false);
-        }
-
-        if (data.getPlaceId() != null) {
-            viewModel.loadPlacesByOrgId(cookie, data.getOrganizationId());
-
-            if (data.getPlaceId() != null) {
-                viewModel.loadPlaceItemsByPlaceId(cookie, data.getPlaceId());
-            }
         }
 
         showComments(data.getAnswerCategories());
@@ -402,9 +363,10 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
 
     void initListeners() {
         divisionTextView.setOnClickListener(v -> {
-            work.setAuthorOrganizationDepartmentId(null);
-            work.setAuthorOrganizationDepartmentName(null);
-            Integer orgId = work.getAuthorOrganizationId();
+            divisionTextView.setText("");
+            driving.setAuthorOrganizationDepartmentId(null);
+            driving.setAuthorOrganizationDepartmentName(null);
+            Integer orgId = driving.getAuthorOrganizationId();
             if (orgId != null) {
                 viewModel.loadDepartmentsByOrgId(orgId, true);
             } else {
@@ -412,33 +374,81 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
             }
         });
 
-        dateTextView.setOnClickListener(v -> {
-            new DatePickerDialog(requireContext(), this,
+        startDateTextView.setOnClickListener(v -> {
+            new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+                Calendar date = Calendar.getInstance();
+                date.set(Calendar.YEAR, year);
+                date.set(Calendar.MONTH, month);
+                date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                startDateString = dateFormat.format(date.getTime());
+                startDateTextView.setText(startDateString);
+                driving.setStartDate(startDateString+ " " + startTimeString);
+            },
                     nowCalendar.get(Calendar.YEAR),
                     nowCalendar.get(Calendar.MONTH),
                     nowCalendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        timeTextView.setOnClickListener(v -> {
-            new TimePickerDialog(requireContext(),
-                    this,
+        startTimeTextView.setOnClickListener(v -> {
+            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+
+                Calendar time = Calendar.getInstance();
+                time.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                time.set(Calendar.MINUTE, minute);
+
+                startTimeString = timeFormat.format(time.getTime());
+                startTimeTextView.setText(startTimeString);
+                driving.setStartDate(startDateString + " " + startTimeString);
+            },
                     nowCalendar.get(Calendar.HOUR_OF_DAY),
                     nowCalendar.get(Calendar.MINUTE), true).show();
         });
 
-        observablesCountEditText.addTextChangedListener(new TextWatcher() {
+        endDateTextView.setOnClickListener(v -> {
+            new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+                Calendar date = Calendar.getInstance();
+                date.set(Calendar.YEAR, year);
+                date.set(Calendar.MONTH, month);
+                date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                endDateString = dateFormat.format(date.getTime());
+                endDateTextView.setText(endDateString);
+                driving.setStartDate(endDateString+ " " + endTimeString);
+            },
+                    nowCalendar.get(Calendar.YEAR),
+                    nowCalendar.get(Calendar.MONTH),
+                    nowCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        });
+
+        endTimeTextView.setOnClickListener(v -> {
+            new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+
+                Calendar time = Calendar.getInstance();
+                time.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                time.set(Calendar.MINUTE, minute);
+
+                endTimeString = timeFormat.format(time.getTime());
+                endTimeTextView.setText(endTimeString);
+                driving.setStartDate(endDateString + " " + endTimeString);
+            },
+                    nowCalendar.get(Calendar.HOUR_OF_DAY),
+                    nowCalendar.get(Calendar.MINUTE), true).show();
+        });
+
+        experienceEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int peopleCount = 0;
+                int years = 0;
                 try {
-                    peopleCount = Integer.parseInt(s.toString());
+                    years = Integer.parseInt(s.toString());
                 } catch (Exception e) {
                 }
-                work.setPeopleCount(peopleCount);
+                driving.setAuthorDrivingExperience(years);
             }
 
             @Override
@@ -446,14 +456,34 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
             }
         });
 
-        taskEditText.addTextChangedListener(new TextWatcher() {
+        experienceDriverEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                work.setTask(s.toString());
+                int years = 0;
+                try {
+                    years = Integer.parseInt(s.toString());
+                } catch (Exception e) {
+                }
+                driving.setDrivingExperience(years);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        areaEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                driving.setLocation(s.toString());
             }
 
             @Override
@@ -464,7 +494,7 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
         obsCompanyTextView.setOnClickListener(v -> {
             onClearCompany();
             showChooser(getString(R.string.department), viewModel.getOrganizationsLiveData().getValue().data, (dialog, item, position) -> {
-                work.setOrganizationId(item.getId());
+                driving.setOrganizationId(item.getId());
                 obsCompanyTextView.setText(item.getTitle());
                 dialog.dismiss();
             });
@@ -472,146 +502,113 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
 
         obsCompanyDivisionTextView.setOnClickListener(v -> {
             onClearCompanyDivision();
-            if (work.getOrganizationId() != null && work.getOrganizationId() != 0) {
-                viewModel.loadDepartmentsByOrgId(work.getOrganizationId(), false);
+            if (driving.getOrganizationId() != null && driving.getOrganizationId() != 0) {
+                viewModel.loadDepartmentsByOrgId(driving.getOrganizationId(), false);
             } else {
                 onToast(getString(R.string.choose_organization));
             }
         });
 
 
-        obsPlaceTextView.setOnClickListener(v -> {
-            onClearPlace();
-            if (work.getOrganizationId() != null) {
-                viewModel.loadPlacesByOrgId(cookie, work.getOrganizationId());
-            } else {
-                onToast(getString(R.string.choose_organization));
-            }
-        });
 
-        obsPlaceItemTextView.setOnClickListener(v -> {
-            onClearPlaceItem();
-            if (work.getPlaceId() != null) {
-                viewModel.loadPlaceItemsByPlaceId(cookie, work.getPlaceId());
-            } else {
-                onToast(getString(R.string.choose_place));
-            }
-        });
 
         saveButton.setOnClickListener(v -> {
-            work.setDate(dateString);
-            work.setTime(timeString);
+            driving.setStartDate(startDateString);
+            driving.setStartTime(startTimeString);
+            driving.setEndDate(endDateString);
+            driving.setEndTime(endTimeString);
             writeCommentsAndCategories();
-            viewModel.saveWork(cookie, work);
+            viewModel.saveDriving(cookie, driving);
         });
     }
 
     private void parseCommentsAndCategories() {
         int j = 0;
-        for (int i = 0; i < work.getAnswerCategories().size(); i++) {
-            AnswerCategoriesItem categoriesItem = work.getAnswerCategories().get(i);
+        for (int i = 0; i < driving.getAnswerCategories().size(); i++) {
+            AnswerCategoriesItem categoriesItem = driving.getAnswerCategories().get(i);
             for (ChildrenItem item :
                     categoriesItem.getChildren()) {
                 j++;
                 switch (j) {
                     case 1:
-                        item.setCategory(work.getCategory1());
-                        item.setComment(work.getComment1());
+                        item.setCategory(driving.getCategory1());
+                        item.setComment(driving.getComment1());
                         break;
                     case 2:
-                        item.setCategory(work.getCategory2());
-                        item.setComment(work.getComment2());
+                        item.setCategory(driving.getCategory2());
+                        item.setComment(driving.getComment2());
                         break;
                     case 3:
 
-                        item.setCategory(work.getCategory3());
-                        item.setComment(work.getComment3());
+                        item.setCategory(driving.getCategory3());
+                        item.setComment(driving.getComment3());
                         break;
                     case 4:
 
-                        item.setCategory(work.getCategory4());
-                        item.setComment(work.getComment4());
+                        item.setCategory(driving.getCategory4());
+                        item.setComment(driving.getComment4());
                         break;
                     case 5:
-                        item.setCategory(work.getCategory5());
-                        item.setComment(work.getComment5());
+                        item.setCategory(driving.getCategory5());
+                        item.setComment(driving.getComment5());
                         break;
                     case 6:
-                        item.setCategory(work.getCategory6());
-                        item.setComment(work.getComment6());
+                        item.setCategory(driving.getCategory6());
+                        item.setComment(driving.getComment6());
                         break;
                     case 7:
-                        item.setCategory(work.getCategory7());
-                        item.setComment(work.getComment7());
+                        item.setCategory(driving.getCategory7());
+                        item.setComment(driving.getComment7());
                         break;
                     case 8:
-                        item.setCategory(work.getCategory8());
-                        item.setComment(work.getComment8());
+                        item.setCategory(driving.getCategory8());
+                        item.setComment(driving.getComment8());
                         break;
                     case 9:
-                        item.setCategory(work.getCategory9());
-                        item.setComment(work.getComment9());
+                        item.setCategory(driving.getCategory9());
+                        item.setComment(driving.getComment9());
                         break;
                     case 10:
-                        item.setCategory(work.getCategory10());
-                        item.setComment(work.getComment10());
+                        item.setCategory(driving.getCategory10());
+                        item.setComment(driving.getComment10());
                         break;
                     case 11:
-                        item.setCategory(work.getCategory11());
-                        item.setComment(work.getComment11());
+                        item.setCategory(driving.getCategory11());
+                        item.setComment(driving.getComment11());
                         break;
                     case 12:
-                        item.setCategory(work.getCategory12());
-                        item.setComment(work.getComment12());
+                        item.setCategory(driving.getCategory12());
+                        item.setComment(driving.getComment12());
                         break;
                     case 13:
-                        item.setCategory(work.getCategory13());
-                        item.setComment(work.getComment13());
+                        item.setCategory(driving.getCategory13());
+                        item.setComment(driving.getComment13());
                         break;
                     case 14:
-                        item.setCategory(work.getCategory14());
-                        item.setComment(work.getComment14());
+                        item.setCategory(driving.getCategory14());
+                        item.setComment(driving.getComment14());
                         break;
                     case 15:
-                        item.setCategory(work.getCategory15());
-                        item.setComment(work.getComment15());
+                        item.setCategory(driving.getCategory15());
+                        item.setComment(driving.getComment15());
                         break;
                     case 16:
-                        item.setCategory(work.getCategory16());
-                        item.setComment(work.getComment16());
+                        item.setCategory(driving.getCategory16());
+                        item.setComment(driving.getComment16());
                         break;
                     case 17:
-                        item.setCategory(work.getCategory17());
-                        item.setComment(work.getComment17());
+                        item.setCategory(driving.getCategory17());
+                        item.setComment(driving.getComment17());
                         break;
                     case 18:
-                        item.setCategory(work.getCategory18());
-                        item.setComment(work.getComment18());
+                        item.setCategory(driving.getCategory18());
+                        item.setComment(driving.getComment18());
                         break;
                     case 19:
-                        item.setCategory(work.getCategory19());
-                        item.setComment(work.getComment19());
+                        item.setCategory(driving.getCategory19());
+                        item.setComment(driving.getComment19());
                         break;
-                    case 20:
-                        item.setCategory(work.getCategory20());
-                        item.setComment(work.getComment20());
-                        break;
-                    case 21:
-                        item.setCategory(work.getCategory21());
-                        item.setComment(work.getComment21());
-                        break;
-                    case 22:
-                        item.setCategory(work.getCategory22());
-                        item.setComment(work.getComment22());
-                        break;
-                    case 23:
-                        item.setCategory(work.getCategory23());
-                        item.setComment(work.getComment23());
-                        break;
-                    case 24:
-                        item.setCategory(work.getCategory24());
-                        item.setComment(work.getComment24());
-                        break;
+
                 }
             }
         }
@@ -619,107 +616,87 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
 
     private void writeCommentsAndCategories() {
         int j = 0;
-        for (int i = 0; i < work.getAnswerCategories().size(); i++) {
-            AnswerCategoriesItem categoriesItem = work.getAnswerCategories().get(i);
+        for (int i = 0; i < driving.getAnswerCategories().size(); i++) {
+            AnswerCategoriesItem categoriesItem = driving.getAnswerCategories().get(i);
             for (ChildrenItem item :
                     categoriesItem.getChildren()) {
                 j++;
                 switch (j) {
                     case 1:
-                        work.setCategory1(item.getCategory());
-                        work.setComment1(item.getComment());
+                        driving.setCategory1(item.getCategory());
+                        driving.setComment1(item.getComment());
                         break;
                     case 2:
-                        work.setCategory2(item.getCategory());
-                        work.setComment2(item.getComment());
+                        driving.setCategory2(item.getCategory());
+                        driving.setComment2(item.getComment());
                         break;
                     case 3:
-                        work.setCategory3(item.getCategory());
-                        work.setComment3(item.getComment());
+                        driving.setCategory3(item.getCategory());
+                        driving.setComment3(item.getComment());
                         break;
                     case 4:
-                        work.setCategory4(item.getCategory());
-                        work.setComment4(item.getComment());
+                        driving.setCategory4(item.getCategory());
+                        driving.setComment4(item.getComment());
                         break;
                     case 5:
-                        work.setCategory5(item.getCategory());
-                        work.setComment5(item.getComment());
+                        driving.setCategory5(item.getCategory());
+                        driving.setComment5(item.getComment());
                         break;
                     case 6:
-                        work.setCategory6(item.getCategory());
-                        work.setComment6(item.getComment());
+                        driving.setCategory6(item.getCategory());
+                        driving.setComment6(item.getComment());
                         break;
                     case 7:
-                        work.setCategory7(item.getCategory());
-                        work.setComment7(item.getComment());
+                        driving.setCategory7(item.getCategory());
+                        driving.setComment7(item.getComment());
                         break;
                     case 8:
-                        work.setCategory8(item.getCategory());
-                        work.setComment8(item.getComment());
+                        driving.setCategory8(item.getCategory());
+                        driving.setComment8(item.getComment());
                         break;
                     case 9:
-                        work.setCategory9(item.getCategory());
-                        work.setComment9(item.getComment());
+                        driving.setCategory9(item.getCategory());
+                        driving.setComment9(item.getComment());
                         break;
                     case 10:
-                        work.setCategory10(item.getCategory());
-                        work.setComment10(item.getComment());
+                        driving.setCategory10(item.getCategory());
+                        driving.setComment10(item.getComment());
                         break;
                     case 11:
-                        work.setCategory11(item.getCategory());
-                        work.setComment11(item.getComment());
+                        driving.setCategory11(item.getCategory());
+                        driving.setComment11(item.getComment());
                         break;
                     case 12:
-                        work.setCategory12(item.getCategory());
-                        work.setComment12(item.getComment());
+                        driving.setCategory12(item.getCategory());
+                        driving.setComment12(item.getComment());
                         break;
                     case 13:
-                        work.setCategory13(item.getCategory());
-                        work.setComment13(item.getComment());
+                        driving.setCategory13(item.getCategory());
+                        driving.setComment13(item.getComment());
                         break;
                     case 14:
-                        work.setCategory14(item.getCategory());
-                        work.setComment14(item.getComment());
+                        driving.setCategory14(item.getCategory());
+                        driving.setComment14(item.getComment());
                         break;
                     case 15:
-                        work.setCategory15(item.getCategory());
-                        work.setComment15(item.getComment());
+                        driving.setCategory15(item.getCategory());
+                        driving.setComment15(item.getComment());
                         break;
                     case 16:
-                        work.setCategory16(item.getCategory());
-                        work.setComment16(item.getComment());
+                        driving.setCategory16(item.getCategory());
+                        driving.setComment16(item.getComment());
                         break;
                     case 17:
-                        work.setCategory17(item.getCategory());
-                        work.setComment17(item.getComment());
+                        driving.setCategory17(item.getCategory());
+                        driving.setComment17(item.getComment());
                         break;
                     case 18:
-                        work.setCategory18(item.getCategory());
-                        work.setComment18(item.getComment());
+                        driving.setCategory18(item.getCategory());
+                        driving.setComment18(item.getComment());
                         break;
                     case 19:
-                        work.setCategory19(item.getCategory());
-                        work.setComment19(item.getComment());
-                        break;
-                    case 20:
-                        work.setCategory20(item.getCategory());
-                        work.setComment20(item.getComment());
-                        break;
-                    case 21:
-                        work.setCategory21(item.getCategory());
-                        work.setComment21(item.getComment());
-                        break;
-                    case 22:
-                        work.setCategory22(item.getCategory());
-                        work.setComment22(item.getComment());
-                        break;
-                    case 23:
-                        work.setCategory23(item.getCategory());
-                        work.setComment23(item.getComment());
-                        break;
-                    case 24:
-                        work.setCategory24(item.getCategory());
-                        work.setComment24(item.getComment());
+                        driving.setCategory19(item.getCategory());
+                        driving.setComment19(item.getComment());
                         break;
                 }
             }
@@ -754,28 +731,7 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
         new SimpleSearchDialogCompat<>(requireContext(), title, "", null, arrayList, listener).show();
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar date = Calendar.getInstance();
-        date.set(Calendar.YEAR, year);
-        date.set(Calendar.MONTH, month);
-        date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        dateString = dateFormat.format(date.getTime());
-        dateTextView.setText(dateString);
-        work.setDateObservation(dateString + " " + timeString);
-    }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar time = Calendar.getInstance();
-        time.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        time.set(Calendar.MINUTE, minute);
-
-        timeString = timeFormat.format(time.getTime());
-        timeTextView.setText(timeString);
-        work.setDateObservation(dateString + " " + timeString);
-    }
 
     OrganizationModel findOrganization(List<OrganizationModel> orgs, int orgId) {
         return orgs.stream().filter(organizationModel -> organizationModel.getId() == orgId).findAny().orElse(null);
@@ -785,33 +741,16 @@ public class EditDrivingObservationFragment extends BaseFragment implements Date
         return deps.stream().filter(dep -> dep.getId() == depId).findAny().orElse(null);
     }
 
-    PlaceModel findPlace(List<PlaceModel> places, int placeId) {
-        return places.stream().filter(dep -> dep.getId() == placeId).findAny().orElse(null);
-    }
-
-    PlaceItemModel findPlaceItem(List<PlaceItemModel> placeItems, int placeItemId) {
-        return placeItems.stream().filter(dep -> dep.getId() == placeItemId).findAny().orElse(null);
-    }
-
     private void onClearCompany() {
         obsCompanyTextView.setText("");
-        work.setOrganizationId(null);
+        driving.setOrganizationId(null);
         onClearCompanyDivision();
     }
 
     private void onClearCompanyDivision() {
         obsCompanyDivisionTextView.setText("");
-        work.setOrganizationDepartmentId(null);
+        driving.setOrganizationDepartmentId(null);
     }
 
-    private void onClearPlace() {
-        obsPlaceTextView.setText("");
-        work.setPlaceId(null);
-        onClearPlaceItem();
-    }
 
-    private void onClearPlaceItem() {
-        obsPlaceItemTextView.setText("");
-        work.setPlaceItemId(null);
-    }
 }

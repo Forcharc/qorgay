@@ -110,6 +110,13 @@
     <string name="save">Сохранить</string>
     <string name="your_comment">Ваш комментарий</string>
     <string name="task">Наблюдаемое рабочее задание</string>
+    <string name="experience">Стаж вождения</string>
+    <string name="area">Участок/маршрут</string>
+    <string name="experience_driver">Стаж вождения водителя</string>
+    <string name="date_driving_start">Дата начала поездки</string>
+    <string name="time_driving_start">Время начала поездки</string>
+    <string name="date_driving_end">Дата окончания поездки</string>
+    <string name="time_driving_end">Время окончания поездки</string>
 
     <plurals name="new_notifications_count">
         <item quantity="one">%d новое уведомление</item>

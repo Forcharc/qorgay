@@ -10,16 +10,15 @@ import androidx.paging.PagingData;
 import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
-import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
 import kz.kmg.qorgau.data.model.observations.driving.DrivingObservationModel;
 import kz.kmg.qorgau.data.network.api.DrivingObservationsApi;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
 import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.ui.observations.BaseObservationListFragment;
 
-import static kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment.PARAM_WORK_ID;
+import static kz.kmg.qorgau.ui.observations.driving.EditDrivingObservationFragment.PARAM_DRIVING_ID;
 
-public class DrivingObservationListFragment extends BaseObservationListFragment {
+public class DrivingObservationListFragment extends BaseObservationListFragment<DrivingObservationModel> {
 
     DrivingObservationViewModel viewModel;
     private DrivingObservationsApi observationsApi;
@@ -28,7 +27,7 @@ public class DrivingObservationListFragment extends BaseObservationListFragment 
     @Override
     public void navigateToObservationId(int workId) {
         Bundle bundle = new Bundle();
-        bundle.putInt(PARAM_WORK_ID, workId);
+        bundle.putInt(PARAM_DRIVING_ID, workId);
         NavHostFragment.findNavController(this).navigate(R.id.editDrivingObservationFragment, bundle);
     }
 
@@ -48,7 +47,7 @@ public class DrivingObservationListFragment extends BaseObservationListFragment 
     public void getPagingData() {
         LiveData<PagingData<DrivingObservationModel>> pagingData = viewModel.getObservations(observationsApi, cookie);
         pagingData.removeObservers(getViewLifecycleOwner());
-        pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> adapter.submitData(getViewLifecycleOwner().getLifecycle(), (PagingData<BaseObservationModel>) (PagingData) workObservationModelPagingData));
+        pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> adapter.submitData(getViewLifecycleOwner().getLifecycle(), /*(PagingData<BaseObservationModel>) (PagingData)*/ workObservationModelPagingData));
     }
 
     public LiveData<Resource<IsSuccessResponse>> getObservationByIdResultLiveData() {

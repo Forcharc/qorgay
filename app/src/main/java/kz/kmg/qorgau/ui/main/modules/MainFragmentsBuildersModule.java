@@ -111,8 +111,10 @@ public abstract class MainFragmentsBuildersModule {
     @ContributesAndroidInjector
     abstract WorkObservationFragment workObservationFragment();
 
+/*
     @ContributesAndroidInjector
     abstract BaseObservationListFragment workListFragment();
+*/
 
     @ContributesAndroidInjector
     abstract EditWorkObservationFragment addObservationFragment();

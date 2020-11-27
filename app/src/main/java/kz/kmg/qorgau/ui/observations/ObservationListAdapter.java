@@ -28,12 +28,12 @@ import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
 import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
 
-public class ObservationListAdapter extends PagingDataAdapter<BaseObservationModel, ObservationListAdapter.ObservationViewHolder> {
+public class ObservationListAdapter<T extends BaseObservationModel> extends PagingDataAdapter<T, ObservationListAdapter<T>.ObservationViewHolder> {
 
     DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     ObservationListListener listener;
 
-    public ObservationListAdapter(@NotNull DiffUtil.ItemCallback<BaseObservationModel> diffCallback, ObservationListListener listener) {
+    public ObservationListAdapter(@NotNull DiffUtil.ItemCallback<T> diffCallback, ObservationListListener listener) {
         super(diffCallback);
         this.listener = listener;
     }
@@ -46,10 +46,11 @@ public class ObservationListAdapter extends PagingDataAdapter<BaseObservationMod
     }
 
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ObservationViewHolder holder, int position) {
         BaseObservationModel currentItem = getItem(position);
-
         if (currentItem != null) {
             holder.bind(currentItem);
         }

@@ -6,10 +6,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.paging.PagingData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,20 +17,13 @@ import kz.kmg.qorgau.QorgauApp;
 import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.data.model.create.IsSuccessResponse;
 import kz.kmg.qorgau.data.model.observations.BaseObservationModel;
-import kz.kmg.qorgau.data.model.observations.work.WorkObservationModel;
-import kz.kmg.qorgau.data.network.api.QorgayApi;
-import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.data.network.base.Resource;
 import kz.kmg.qorgau.ui.base.fragment.BaseFragment;
 import kz.kmg.qorgau.ui.dialogs.NeedsAuthorizationDialog;
-import kz.kmg.qorgau.ui.observations.ObservationListAdapter;
-import kz.kmg.qorgau.ui.observations.work.WorkObservationViewModel;
 import kz.kmg.qorgau.utils.rv.QorgayLoadStateAdapter;
 import kz.kmg.qorgau.utils.rv.RecyclerTouchListener;
 
-import static kz.kmg.qorgau.ui.observations.work.EditWorkObservationFragment.PARAM_WORK_ID;
-
-public abstract class BaseObservationListFragment extends BaseFragment implements QorgayLoadStateAdapter.LoadStateListener, NeedsAuthorizationDialog.NeedsAuthorizationDialogListener, ObservationListAdapter.ObservationListListener {
+public abstract class BaseObservationListFragment<T extends BaseObservationModel> extends BaseFragment implements QorgayLoadStateAdapter.LoadStateListener, NeedsAuthorizationDialog.NeedsAuthorizationDialogListener, ObservationListAdapter.ObservationListListener {
 
     private static final String TAG = "ObservationListFragment";
     private NavController navController;
@@ -44,7 +35,7 @@ public abstract class BaseObservationListFragment extends BaseFragment implement
 
     protected String cookie;
 
-    protected final ObservationListAdapter adapter = new ObservationListAdapter(new DiffUtil.ItemCallback<BaseObservationModel>() {
+    protected final ObservationListAdapter<T> adapter = new ObservationListAdapter<>(new DiffUtil.ItemCallback<T>() {
         @Override
         public boolean areItemsTheSame(@NonNull BaseObservationModel oldItem, @NonNull BaseObservationModel newItem) {
             return oldItem.getId().equals(newItem.getId());

@@ -4,12 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import kz.kmg.qorgau.R;
 import kz.kmg.qorgau.ui.observations.BaseObservationFragment;
 
 public class WorkObservationFragment extends BaseObservationFragment {
     @Override
     public FragmentStateAdapter getPagerAdapter(Fragment fragment) {
         return new PagerAdapter(fragment);
+    }
+
+    @Override
+    public void navigateToAddNewObservation() {
+        navController.navigate(R.id.addWorkObservationFragment);
     }
 
     class PagerAdapter extends FragmentStateAdapter {
