@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity {
 
         prefStorage = ((QorgauApp) getApplication()).prefStorage;
 
+        setTheme(R.style.AppTheme_NoActionBar);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

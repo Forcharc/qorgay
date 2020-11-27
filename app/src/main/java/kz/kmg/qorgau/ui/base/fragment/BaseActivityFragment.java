@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.DaggerFragment;
@@ -28,7 +31,7 @@ public abstract class BaseActivityFragment<T> extends DaggerFragment {
     public abstract int getContentView();
 
     public void onToast(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

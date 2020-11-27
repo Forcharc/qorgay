@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Qorgau</string>
+    <string name="app_name">HSE KMG</string>
     <string name="default_notification_channel_id" translatable="false">11</string>
 
     <!--Navigation-->
@@ -117,6 +117,7 @@
     <string name="time_driving_start">Время начала поездки</string>
     <string name="date_driving_end">Дата окончания поездки</string>
     <string name="time_driving_end">Время окончания поездки</string>
+    <string name="driving_observations">Наблюдения вождения</string>
 
     <plurals name="new_notifications_count">
         <item quantity="one">%d новое уведомление</item>

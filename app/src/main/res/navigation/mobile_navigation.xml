@@ -77,10 +77,10 @@
         android:id="@+id/drivingObservationFragment"
         tools:layout="@layout/fragment_observation"
         android:name="kz.kmg.qorgau.ui.observations.driving.DrivingObservationFragment"
-        android:label="DrivingObservationFragment" />
+        android:label="@string/driving_observations" />
     <fragment
         android:id="@+id/editDrivingObservationFragment"
         tools:layout="@layout/fragment_edit_driving_observation"
         android:name="kz.kmg.qorgau.ui.observations.driving.EditDrivingObservationFragment"
-        android:label="EditDrivingObservationFragment" />
+        android:label="@string/fill_in_the_card" />
 </navigation>
