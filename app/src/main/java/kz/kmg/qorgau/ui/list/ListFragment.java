@@ -58,11 +58,12 @@ public class ListFragment extends BaseFragment {
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
+    @BindView(R.id.b_retry)
+    Button retryButton;
+
     @BindView(R.id.srl_list)
     SwipeRefreshLayout listSwipeRefreshLayout;
 
-    @BindView(R.id.b_retry)
-    Button retryButton;
 
     @BindView(R.id.ll_no_items)
     LinearLayout noItemsLinearLayout;
@@ -113,7 +114,6 @@ public class ListFragment extends BaseFragment {
         );
 
         init();
-
 
         listSwipeRefreshLayout.setOnRefreshListener(() -> {
             listSwipeRefreshLayout.setRefreshing(false);

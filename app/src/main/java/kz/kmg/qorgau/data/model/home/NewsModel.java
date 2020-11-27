@@ -1,35 +1,48 @@
 package kz.kmg.qorgau.data.model.home;
 
-import kz.kmg.qorgau.data.model.UserModel;
+import com.google.gson.annotations.SerializedName;
 
-public class NewsModel {
+public class NewsModel{
 
-    private UserModel user;
-    private long dateTimeInMillis;
-    private String content;
+	@SerializedName("PublishDate")
+	private String publishDate;
 
-    public UserModel getUser() {
-        return user;
-    }
+	@SerializedName("InsertDate")
+	private String insertDate;
 
-    public long getDateTimeInMillis() {
-        return dateTimeInMillis;
-    }
+	@SerializedName("Text")
+	private String text;
 
-    public String getContent() {
-        return content;
-    }
+	@SerializedName("Id")
+	private int id;
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
+	@SerializedName("Url")
+	private String url;
 
-    private String imgUrl;
+	@SerializedName("Name")
+	private String name;
 
-    public NewsModel(UserModel user, long dateTimeInMillis, String content, String imgUrl) {
-        this.user = user;
-        this.dateTimeInMillis = dateTimeInMillis;
-        this.content = content;
-        this.imgUrl = imgUrl;
-    }
+	public String getPublishDate(){
+		return publishDate;
+	}
+
+	public String getInsertDate(){
+		return insertDate;
+	}
+
+	public String getText(){
+		return text;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public String getUrl(){
+		return url;
+	}
+
+	public String getName(){
+		return name;
+	}
 }

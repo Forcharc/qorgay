@@ -1,6 +1,7 @@
 package kz.kmg.qorgau.ui.home;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,28 +9,44 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.DiffUtil;
 
+import com.bumptech.glide.RequestManager;
+
 import butterknife.BindView;
 import kz.kmg.qorgau.R;
-import kz.kmg.qorgau.data.model.home.PromoModel;
+import kz.kmg.qorgau.data.model.home.NewsTopModel;
+import kz.kmg.qorgau.domain.services.glide.GlideModule;
 import kz.kmg.qorgau.ui.base.adapter.BaseAdapter;
 import kz.kmg.qorgau.ui.base.adapter.BaseViewHolder;
 import kz.kmg.qorgau.ui.base.adapter.OnItemClickListener;
 
-public class PromoCardsAdapter extends BaseAdapter<PromoModel> {
+public class NewsTopAdapter extends BaseAdapter<NewsTopModel> {
 
     OnItemClickListener onItemClickListener;
+    RequestManager glide;
 
-    public PromoCardsAdapter() {
+    public NewsTopAdapter(RequestManager glide) {
         super();
+        this.glide = glide;
     }
 
     @NonNull
     @Override
-    public DiffUtil.ItemCallback<PromoModel> getDiffCallback() {
-        return null;
+    public DiffUtil.ItemCallback<NewsTopModel> getDiffCallback() {
+        return new DiffUtil.ItemCallback<NewsTopModel>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull NewsTopModel oldItem, @NonNull NewsTopModel newItem) {
+                return oldItem.getName().equals(newItem.getName()) && oldItem.getUrl().equals(newItem.getUrl());
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull NewsTopModel oldItem, @NonNull NewsTopModel newItem) {
+                return oldItem.getName().equals(newItem.getName()) && oldItem.getUrl().equals(newItem.getUrl());
+            }
+        };
     }
 
     @NonNull
@@ -39,12 +56,7 @@ public class PromoCardsAdapter extends BaseAdapter<PromoModel> {
         return new PromoCardViewHolder(root);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        ((PromoCardViewHolder) holder).setData(getItem(position));
-    }
-
-    class PromoCardViewHolder extends BaseViewHolder<PromoModel> {
+    class PromoCardViewHolder extends BaseViewHolder<NewsTopModel> {
         @BindView(R.id.iv_background)
         AppCompatImageView backgroundImageView;
 
@@ -56,21 +68,16 @@ public class PromoCardsAdapter extends BaseAdapter<PromoModel> {
         }
 
         @Override
-        public void setData(PromoModel item) {
-            itemView.setOnClickListener(view -> {
-                        if (onItemClickListener != null) {
-                            onItemClickListener.onItemClick(item);
-                        }
-                    }
-            );
+        public void setData(NewsTopModel item) {
 
-            backgroundImageView.setImageDrawable(item.getImage());
+            glide.load(item.getUrl()).into(backgroundImageView);
+
             ImageViewCompat.setImageTintList(
                     backgroundImageView,
-                    ColorStateList.valueOf(item.getBackgroundTintColor())
+                    ColorStateList.valueOf(Color.parseColor("#9912207B"))
             );
 
-            titleTextView.setText(item.getText());
+            titleTextView.setText(item.getName());
         }
     }
 }
