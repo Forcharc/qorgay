@@ -45,6 +45,9 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
     @BindView(R.id.ib_driving)
     ImageButton drivingButton;
 
+    @BindView(R.id.ib_questionnaire)
+    ImageButton questionnaireButton;
+
     @BindView(R.id.tv_news)
     TextView newsTextView;
 
@@ -147,6 +150,10 @@ public class HomeFragment extends BaseFragment implements OnItemClickListener {
 
         drivingButton.setOnClickListener(v -> {
             navController.navigate(R.id.action_navigation_home_to_drivingObservationFragment);
+        });
+
+        questionnaireButton.setOnClickListener(v -> {
+            navController.navigate(R.id.action_navigation_home_to_questionnaireListFragment);
         });
     }
 

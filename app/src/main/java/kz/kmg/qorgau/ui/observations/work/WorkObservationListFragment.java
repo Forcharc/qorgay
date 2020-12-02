@@ -46,7 +46,7 @@ public class WorkObservationListFragment extends BaseObservationListFragment<Wor
         viewModel.init(qorgayApi, observationsApi);
     }
 
-    public void getPagingData() {
+    public void initPagingData() {
         LiveData<PagingData<WorkObservationModel>> pagingData = viewModel.getObservations(observationsApi, cookie);
         pagingData.removeObservers(getViewLifecycleOwner());
         pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> {

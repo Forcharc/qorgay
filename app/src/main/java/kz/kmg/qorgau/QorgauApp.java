@@ -13,6 +13,7 @@ import kz.kmg.qorgau.data.network.api.NewsApi;
 import kz.kmg.qorgau.data.network.api.NotificationsApi;
 import kz.kmg.qorgau.data.network.api.ProfileApi;
 import kz.kmg.qorgau.data.network.api.QorgayApi;
+import kz.kmg.qorgau.data.network.api.QuestionnaireApi;
 import kz.kmg.qorgau.data.network.api.WorkObservationsApi;
 import kz.kmg.qorgau.di.DaggerAppComponent;
 import retrofit2.Retrofit;
@@ -33,6 +34,7 @@ public class QorgauApp extends DaggerApplication {
     public NotificationsApi notificationsApi;
     public WorkObservationsApi workObservationsApi;
     public DrivingObservationsApi drivingObservationsApi;
+    public QuestionnaireApi questionnaireApi;
 
     @Override
     public void onCreate() {
@@ -43,6 +45,7 @@ public class QorgauApp extends DaggerApplication {
         workObservationsApi = retrofit.create(WorkObservationsApi.class);
         drivingObservationsApi = retrofit.create(DrivingObservationsApi.class);
         newsApi = retrofit.create(NewsApi.class);
+        questionnaireApi = retrofit.create(QuestionnaireApi.class);
         prefStorage = new SharedPrefStorage(this);
     }
 

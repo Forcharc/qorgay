@@ -30,4 +30,9 @@
     <color name="color_nav_active">#0084F8</color>
     <color name="color_nav_inactive">@color/color_strange_gray</color>
 
+    <color name="color_quest_default">#007AFF</color>
+    <color name="color_quest_special">#5AC8FA</color>
+    <color name="color_quest_anonymous">#FF9500</color>
+    <color name="color_quest_guest">#34C759</color>
+
 </resources>

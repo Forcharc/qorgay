@@ -44,7 +44,7 @@ public class DrivingObservationListFragment extends BaseObservationListFragment<
         viewModel.init(qorgayApi, observationsApi);
     }
 
-    public void getPagingData() {
+    public void initPagingData() {
         LiveData<PagingData<DrivingObservationModel>> pagingData = viewModel.getObservations(observationsApi, cookie);
         pagingData.removeObservers(getViewLifecycleOwner());
         pagingData.observe(getViewLifecycleOwner(), workObservationModelPagingData -> adapter.submitData(getViewLifecycleOwner().getLifecycle(), /*(PagingData<BaseObservationModel>) (PagingData)*/ workObservationModelPagingData));

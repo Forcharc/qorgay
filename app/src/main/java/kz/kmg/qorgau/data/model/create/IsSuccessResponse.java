@@ -7,6 +7,9 @@ public class IsSuccessResponse {
 	@SerializedName("success")
 	private Boolean isSuccess;
 
+	@SerializedName("message")
+	private String message;
+
 
 	public Boolean getIsSuccess(){
 		return isSuccess;

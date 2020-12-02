@@ -539,12 +539,10 @@ public class EditDrivingObservationFragment extends BaseFragment  {
                         item.setComment(driving.getComment2());
                         break;
                     case 3:
-
                         item.setCategory(driving.getCategory3());
                         item.setComment(driving.getComment3());
                         break;
                     case 4:
-
                         item.setCategory(driving.getCategory4());
                         item.setComment(driving.getComment4());
                         break;

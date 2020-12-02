@@ -118,6 +118,15 @@
     <string name="date_driving_end">Дата окончания поездки</string>
     <string name="time_driving_end">Время окончания поездки</string>
     <string name="driving_observations">Наблюдения вождения</string>
+    <string name="special">Специальный</string>
+    <string name="guest">Для гостей</string>
+    <string name="default1">Обычный</string>
+    <string name="anonymous">Анонимный</string>
+    <string name="questionnaire">Опрос</string>
+    <string name="questionnaire_goal">Цель опроса</string>
+    <string name="enter_questionnaire"><u>Пройти опрос?</u></string>
+    <string name="enter_questionnaire2">Пройти опрос</string>
+    <string name="questionnaire_is_passed"><u>Опрос уже пройден</u></string>
 
     <plurals name="new_notifications_count">
         <item quantity="one">%d новое уведомление</item>

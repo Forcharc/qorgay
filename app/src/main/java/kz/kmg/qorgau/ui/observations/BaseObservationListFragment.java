@@ -69,7 +69,7 @@ public abstract class BaseObservationListFragment<T extends BaseObservationModel
             recyclerView.setHasFixedSize(true);
             recyclerView.setAdapter(adapter.getWithLoadStateHeaderAndFooter(new QorgayLoadStateAdapter(this), new QorgayLoadStateAdapter(this)));
 
-            getPagingData();
+            initPagingData();
 
             RecyclerTouchListener touchListener = new RecyclerTouchListener(getActivity(), recyclerView);
             touchListener.setSwipeOptionViews(R.id.iv_edit, R.id.iv_delete)//,R.id.edit_task)
@@ -82,7 +82,7 @@ public abstract class BaseObservationListFragment<T extends BaseObservationModel
                         onToast(resource.apiError.getMessage());
                         break;
                     case SUCCESS:
-                        getPagingData();
+                        initPagingData();
                         break;
                     case LOADING:
                         break;
@@ -91,7 +91,7 @@ public abstract class BaseObservationListFragment<T extends BaseObservationModel
         }
     }
 
-    public abstract void getPagingData();
+    public abstract void initPagingData();
 
     public abstract void initViewModel();
 

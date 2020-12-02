@@ -2,7 +2,9 @@ package kz.kmg.qorgau.data.model.questionnaires;
 
 import com.google.gson.annotations.SerializedName;
 
-public class QuestionnaireModel{
+import java.io.Serializable;
+
+public class QuestionnaireModel implements Serializable {
 
 	@SerializedName("Type")
 	private String type;

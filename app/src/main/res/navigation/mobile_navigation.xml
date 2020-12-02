@@ -48,8 +48,12 @@
     <fragment
         android:id="@+id/questionnaireListFragment"
         tools:layout="@layout/fragment_questionnaire_list"
-        android:name="kz.kmg.qorgau.ui.home.questionnaire.QuestionnaireListFragment"
-        android:label="@string/questionnaires" />
+        android:name="kz.kmg.qorgau.ui.questionnaire.QuestionnaireListFragment"
+        android:label="@string/questionnaires" >
+        <action
+            android:id="@+id/action_questionnaireListFragment_to_questionnaireDescriptionFragment"
+            app:destination="@id/questionnaireDescriptionFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
@@ -82,5 +86,19 @@
         android:id="@+id/editDrivingObservationFragment"
         tools:layout="@layout/fragment_edit_driving_observation"
         android:name="kz.kmg.qorgau.ui.observations.driving.EditDrivingObservationFragment"
+        android:label="@string/fill_in_the_card" />
+    <fragment
+        android:id="@+id/questionnaireDescriptionFragment"
+        tools:layout="@layout/fragment_questionnaire_description"
+        android:name="kz.kmg.qorgau.ui.questionnaire.QuestionnaireDescriptionFragment"
+        android:label="@string/questionnaire" >
+        <action
+            android:id="@+id/action_questionnaireDescriptionFragment_to_questionnaireFragment"
+            app:destination="@id/questionnaireFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionnaireFragment"
+        tools:layout="@layout/fragment_questionnaire"
+        android:name="kz.kmg.qorgau.ui.questionnaire.QuestionnaireFragment"
         android:label="@string/fill_in_the_card" />
 </navigation>

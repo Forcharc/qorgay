@@ -33,7 +33,9 @@ import kz.kmg.qorgau.ui.observations.work.WorkObservationListFragment;
 import kz.kmg.qorgau.ui.observations.work.WorkObservationReportsFragment;
 import kz.kmg.qorgau.ui.profile.LoginFragment;
 import kz.kmg.qorgau.ui.profile.ProfileFragment;
-import kz.kmg.qorgau.ui.observations.BaseObservationListFragment;
+import kz.kmg.qorgau.ui.questionnaire.QuestionnaireDescriptionFragment;
+import kz.kmg.qorgau.ui.questionnaire.QuestionnaireFragment;
+import kz.kmg.qorgau.ui.questionnaire.QuestionnaireListFragment;
 
 
 @Module
@@ -111,11 +113,6 @@ public abstract class MainFragmentsBuildersModule {
     @ContributesAndroidInjector
     abstract WorkObservationFragment workObservationFragment();
 
-/*
-    @ContributesAndroidInjector
-    abstract BaseObservationListFragment workListFragment();
-*/
-
     @ContributesAndroidInjector
     abstract EditWorkObservationFragment addObservationFragment();
 
@@ -136,4 +133,13 @@ public abstract class MainFragmentsBuildersModule {
 
     @ContributesAndroidInjector
     abstract EditDrivingObservationFragment editDrivingObservationFragment();
+
+    @ContributesAndroidInjector
+    abstract QuestionnaireListFragment questionnaireListFragment();
+
+    @ContributesAndroidInjector
+    abstract QuestionnaireDescriptionFragment questionnaireDescriptionFragment();
+
+    @ContributesAndroidInjector
+    abstract QuestionnaireFragment questionnaireFragment();
 }

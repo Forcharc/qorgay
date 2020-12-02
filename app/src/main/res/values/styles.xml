@@ -26,6 +26,18 @@
         <item name="android:minHeight">50dp</item>
     </style>
 
+    <style name="AppTheme.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/sfui_display_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/sfui_display_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="AppTheme.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/sfui_display_regular</item>
